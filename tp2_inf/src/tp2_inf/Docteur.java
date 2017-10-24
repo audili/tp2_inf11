@@ -1,39 +1,43 @@
 package tp2_inf;
 
-public class Docteur {
+import java.io.Serializable;
 
-	 private Identification identification;			// Identification du docteur
-	 private enuDepartements departement; 			// Département où travaille le docteur
-	 
-	 public enum enuDepartements {
-			CHIRURGIE,URGENCE,UROLOGIE
-	 }
-	 
-	 /**
-	  * Créé un Docteur selon une identification donnéee et un département où il travaille.
-	  * @param identification Identifciation du Docteur
-	  * @param departement Département où travaille le Docteur
-	  */
-	 public Docteur(Identification identification, enuDepartements departement) {
-		 this.identification = identification;
-		 this.departement = departement;
-	 }
-	 
-	 public Identification getIdentification() {
-		 return identification;
-	 }
-	 
-	 public void setIdentification(Identification identification) {
-		 this.identification = identification;
-	 }
-	 
-	 public enuDepartements getDepartement() {
-		 return departement;
-	 }
-	 
-	 public void setDepartement(enuDepartements departement) {
-		 this.departement = departement;
-	 }
+public class Docteur implements Serializable {
+
+	private static final long serialVersionUID = -6971714255149598696L;
+
+	private Identification identification;			// Identification du docteur
+	private enuDepartements departement; 			// Département où travaille le docteur
+
+	public enum enuDepartements {
+		CHIRURGIE,URGENCE,UROLOGIE
+	}
+
+	/**
+	 * Créé un Docteur selon une identification donnéee et un département où il travaille.
+	 * @param identification Identifciation du Docteur
+	 * @param departement Département où travaille le Docteur
+	 */
+	public Docteur(Identification identification, enuDepartements departement) {
+		this.identification = identification;
+		this.departement = departement;
+	}
+
+	public Identification getIdentification() {
+		return identification;
+	}
+
+	public void setIdentification(Identification identification) {
+		this.identification = identification;
+	}
+
+	public enuDepartements getDepartement() {
+		return departement;
+	}
+
+	public void setDepartement(enuDepartements departement) {
+		this.departement = departement;
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -64,9 +68,9 @@ public class Docteur {
 			return false;
 		return true;
 	}
-	 
+
 	public Docteur clone() {
 		return new Docteur(identification, departement);
 	}
-	 
+
 }
