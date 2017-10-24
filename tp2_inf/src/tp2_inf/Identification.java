@@ -63,7 +63,7 @@ public class Identification implements Serializable {
 	}
 	
 	public String toString() {
-		return nom + ", " + prenom;
+		return nom + " " + prenom;
 	}
 
 	/* (non-Javadoc)
