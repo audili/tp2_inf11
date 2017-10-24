@@ -30,6 +30,11 @@ public class Patient implements Serializable {
 	public Patient(Patient patient) {
 
 	}
+	
+	/**
+	 * Accesseur de l'identification du patient
+	 * @return numeroAssuranceSociale
+	 */
 
 	public Identification getIdentification(){
 		return identification;
@@ -59,8 +64,6 @@ public class Patient implements Serializable {
 	}
 
 	public boolean equals (Object obj){
-
-
 		return false;
 
 	}
