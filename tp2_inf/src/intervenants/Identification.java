@@ -1,7 +1,7 @@
 /**
  * 
  */
-package tp2_inf;
+package intervenants;
 
 import java.io.Serializable;
 

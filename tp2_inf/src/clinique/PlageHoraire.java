@@ -1,4 +1,4 @@
-package tp2_inf;
+package clinique;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,10 +7,10 @@ import java.util.Date;
 public class PlageHoraire implements Serializable {
 
 	private static final long serialVersionUID = -7812266998472543276L;
-	
+
 	private Date dateHeure;
 	private ArrayList<RendezVous> listeRendezVous;
-	
+
 	public PlageHoraire(Date date) {
 		dateHeure = date;
 		listeRendezVous = new ArrayList<RendezVous>();
@@ -45,6 +45,6 @@ public class PlageHoraire implements Serializable {
 				+ listeRendezVous + "]";
 	}
 
-	
-	
+
+
 }

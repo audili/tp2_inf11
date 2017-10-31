@@ -1,4 +1,4 @@
-package tp2_inf;
+package intervenants;
 
 import java.io.Serializable;
 
@@ -10,8 +10,9 @@ import java.io.Serializable;
 
 public class Patient implements Serializable {
 
-	private Identification identification = new Identification(); //Identification du patient
-	private int numeroAssuranceSociale; //Numéro d'assurance sociale du patient
+	private static final long serialVersionUID = -5106515029568326487L;
+	private Identification identification = new Identification();
+	private int numeroAssuranceSociale;
 
 
 	/**
@@ -19,7 +20,6 @@ public class Patient implements Serializable {
 	 * @param identification Nom et prénom du patient
 	 * @param numeroAssuranceSociale Numéro d'assurance sociale du patient
 	 */
-
 	public Patient(Identification identification,int numeroAssuranceSociale){
 
 		this.identification = identification;
@@ -30,7 +30,7 @@ public class Patient implements Serializable {
 	public Patient(Patient patient) {
 
 	}
-	
+
 	/**
 	 * Accesseur de l'identification du patient
 	 * @return numeroAssuranceSociale
@@ -43,7 +43,7 @@ public class Patient implements Serializable {
 	public void setIdentification(Identification identification){
 
 	}
-	
+
 	/**
 	 * Accesseur du numéro d'assurance sociale du patient
 	 * @return numeroAssuranceSociale
@@ -57,17 +57,18 @@ public class Patient implements Serializable {
 	 * Mutateur du numéro d'assurance sociale du patient
 	 * @param numeroAssuranceSociale
 	 */
-
 	public void setNumeroAssuranceSociale(int numeroAssuranceSociale){
 		this.numeroAssuranceSociale = numeroAssuranceSociale;
 
 	}
 
+	@Override
 	public boolean equals (Object obj){
 		return false;
 
 	}
 
+	@Override
 	public String toString(){
 
 		return (""+identification+" "+numeroAssuranceSociale);

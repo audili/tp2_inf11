@@ -1,21 +1,25 @@
-package tp2_inf;
+package clinique;
+
+import intervenants.Docteur;
+import intervenants.Infirmier;
+import intervenants.Patient;
 
 import java.io.Serializable;
 
 public class RendezVous implements Serializable {
-	
+
 	private static final long serialVersionUID = -7485962409320350595L;
-	
+
 	private Docteur docteur;		// Docteur consulté pendant le rendez-vous
 	private Patient patient; 		// Patient ayant consulté le Docteur
 	private Infirmier infirmier;	// Infirmier ayant aidé le Docteur
-	
+
 	public RendezVous(Patient patient, Docteur docteur, Infirmier infirmier) {
-		
+
 		if(patient == null || docteur == null || infirmier == null) {
 			throw new NullPointerException("Un attribut nul pour un rendezvous est interdit");
 		}
-		
+
 		this.patient = patient;
 		this.docteur = docteur;
 		this.infirmier = infirmier;
@@ -74,7 +78,7 @@ public class RendezVous implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 	public String toString() {
 		return docteur.toString() + " " + infirmier.toString() + " " + patient.toString();
 	}

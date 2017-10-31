@@ -1,13 +1,12 @@
-package tp2_inf;
+package intervenants;
 
 import java.io.Serializable;
 
 public class Docteur implements Serializable {
 
 	private static final long serialVersionUID = -6971714255149598696L;
-
-	private Identification identification;			// Identification du docteur
-	private enuDepartements departement; 			// Département où travaille le docteur
+	private Identification identification;
+	private enuDepartements departement;
 
 	public enum enuDepartements {
 		CHIRURGIE,URGENCE,UROLOGIE
@@ -39,17 +38,11 @@ public class Docteur implements Serializable {
 		this.departement = departement;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "Docteur " + identification.toString() + ", " + departement;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
