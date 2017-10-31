@@ -2,12 +2,11 @@ package intervenants;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Infirmier implements Serializable {
-
-	private static final long serialVersionUID = -961797895222477159L;
+	
 	private Identification identifiant = new Identification();
 	private boolean estDisponible;
-
 
 	/**
 	 * Créé un Infirmier avec des valeurs d'Identification et de disponibilit par défaut.

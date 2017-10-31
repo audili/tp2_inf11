@@ -5,16 +5,8 @@ package intervenants;
 
 import java.io.Serializable;
 
-/**
- * @author AP09730
- *
- */
+@SuppressWarnings("serial")
 public class Identification implements Serializable {
-
-	/**
-	 * Serialization ID
-	 */
-	private static final long serialVersionUID = -4624840770544994780L;
 
 	private String prenom;		// Prénom de l'intervenant
 	private String nom;			// Nom de famille de l'intervenant

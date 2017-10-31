@@ -2,15 +2,9 @@ package intervenants;
 
 import java.io.Serializable;
 
-/**
- * 
- * @author ak37700
- *
- */
-
+@SuppressWarnings("serial")
 public class Patient implements Serializable {
-
-	private static final long serialVersionUID = -5106515029568326487L;
+	
 	private Identification identification = new Identification();
 	private int numeroAssuranceSociale;
 

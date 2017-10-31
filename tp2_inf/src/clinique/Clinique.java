@@ -1,9 +1,12 @@
 package clinique;
 
 import intervenants.*;
+
+import java.io.Serializable;
 import java.util.LinkedList;
 
-public class Clinique {
+@SuppressWarnings("serial")
+public class Clinique implements Serializable {
 
 	private LinkedList<Docteur> listeDocteur = new LinkedList<Docteur>();
 	private LinkedList<Infirmier> listeInfirmier = new LinkedList<Infirmier>();

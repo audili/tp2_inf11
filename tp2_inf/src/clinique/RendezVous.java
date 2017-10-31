@@ -6,9 +6,8 @@ import intervenants.Patient;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class RendezVous implements Serializable {
-
-	private static final long serialVersionUID = -7485962409320350595L;
 
 	private Docteur docteur;		// Docteur consulté pendant le rendez-vous
 	private Patient patient; 		// Patient ayant consulté le Docteur

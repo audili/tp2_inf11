@@ -2,9 +2,9 @@ package intervenants;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Docteur implements Serializable {
-
-	private static final long serialVersionUID = -6971714255149598696L;
+	
 	private Identification identification;
 	private enuDepartements departement;
 

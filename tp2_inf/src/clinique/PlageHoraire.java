@@ -4,9 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
+@SuppressWarnings("serial")
 public class PlageHoraire implements Serializable {
-
-	private static final long serialVersionUID = -7812266998472543276L;
 
 	private Date dateHeure;
 	private ArrayList<RendezVous> listeRendezVous;
