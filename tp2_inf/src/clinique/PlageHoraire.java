@@ -16,11 +16,11 @@ public class PlageHoraire implements Serializable {
 		listeRendezVous = new ArrayList<RendezVous>();
 	}
 
-	public Date getDateHeure() {
+	public Date getDate() {
 		return dateHeure;
 	}
 
-	public void setDateHeure(Date dateHeure) {
+	public void setDate(Date dateHeure) {
 		this.dateHeure = dateHeure;
 	}
 
@@ -44,7 +44,4 @@ public class PlageHoraire implements Serializable {
 		return "PlageHoraire du " + dateHeure + ", RendezVous: "
 				+ listeRendezVous + "]";
 	}
-
-
-
 }
