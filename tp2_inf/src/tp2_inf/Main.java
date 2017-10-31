@@ -1,6 +1,8 @@
 package tp2_inf;
 import java.util.Scanner;
 
+import intervenants.*;
+
 /**
  * 
  * @author ak37700
@@ -9,20 +11,17 @@ import java.util.Scanner;
  * Il gère aussi le calendrier des clients, c'est-à-dire les patients et leurs rendez-vous.
  */
 public class Main {
-
+	
 	public static void main(String[] args) {
 
 		Scanner clavier = new Scanner(System.in); //Déclaration de la lecture du clavier
 		int choix = 0; //choix de l'administrateur à la console
 
-
-		// L'administrateur aura le choix entre 14 options décrites ci-dessous. Les options sont réaffichées si l'administrateur presse une option qui n'est pas entre 1 et 14.
-
+		// L'administrateur aura le choix entre 14 options décrites ci-dessous. 
+		// Les options sont réaffichées si l'administrateur presse une option qui n'est pas entre 1 et 14.
 		while (choix != 14) {
 
 			do{
-
-
 				System.out.print("Bienvenue à la clinique\nQue voulez-vous faire ?\n1) Ajouter un docteur\n2) Ajouter un infirmier\n3) Ajouter un patient\n4) Ajouter un rendez-vous"
 						+ "\n5) Trouver un rendez-vous pour un patient\n6) Afficher le prochain rendez-vous d'un docteur\n7) Afficher le prochain rendez-vous d'un infirmier\n"
 						+ "8) Afficher le prochain rendez-vous d'un patient\n9) Passer à la prochaine plage horaire\n10) Afficher le calendrier complet\n"
@@ -33,6 +32,7 @@ public class Main {
 				switch (choix){
 
 				case 1:
+					ajouterDocteur(clavier);
 
 				case 2:
 
@@ -63,7 +63,27 @@ public class Main {
 				}
 
 			} while ( choix < 1 || choix > 14);
+			clavier.close();
 		}
 	}
 
+	public static void ajouterDocteur(Scanner clavier) {
+		
+		String prenom = null;
+		String nom = null;
+		
+		while(prenom == null || nom == null) {
+			System.out.println("Veuillez entrer le prénom et le nom du docteur.");
+			String entreeUtilisateur = clavier.nextLine();
+			String[] tabNomPrenom = entreeUtilisateur.split(" ");
+			
+			if(tabNomPrenom.length == 2) {
+				prenom = tabNomPrenom[0];
+				nom = tabNomPrenom[1];
+			}
+		}
+		
+		Identification identification = new Identification(prenom, nom);
+		System.out.println("Docteur " + identification.toString() + " ajouté.");
+	}
 }
