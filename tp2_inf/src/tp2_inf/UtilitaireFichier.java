@@ -8,10 +8,27 @@ import java.io.ObjectOutputStream;
 
 import clinique.Clinique;
 
+/**
+ * Auteurs: Alec Durocher, Ali Joudad et Ayoub Moudrika
+ * 
+ * Cette classe abstraite permet de sauvegarder l'objet clinique, qui contient
+ * les listes de docteurs, infirmiers et patients. Cette sauvegarde ce fait 
+ * dans un fichier BIN.
+ *
+ *
+ * STRATÉGIE:
+ */
 public abstract class UtilitaireFichier {
-	
-	private String fileName = "clinique.bin";
 
+	
+	private String fileName = "clinique.bin"; //Nom du fichier à sauvegarder
+
+	/**
+	 * Cette méthode permet d'importer un fichier clinique.bin 
+	 * préalablement sauvegardée.
+	 * 
+	 * @return une clinique
+	 */
 	public Clinique getCliniqueSauvegardee() {
 		
 		FileInputStream fichierClinique = null;
@@ -27,6 +44,10 @@ public abstract class UtilitaireFichier {
         }		
 	}
 	
+	/**
+	 *  Inversement, cette méthode permet de sauvegarder
+	 * @param clinique
+	 */
 	public void sauvegardeClinique(Clinique clinique) {
 		try {
 			FileOutputStream fileOut = new FileOutputStream(fileName);

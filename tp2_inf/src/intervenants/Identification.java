@@ -5,6 +5,11 @@ package intervenants;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * @author Auteurs: Alec Durocher, Ali Joudad et Ayoub Moudrika
+ *
+ */
 @SuppressWarnings("serial")
 public class Identification implements Serializable {
 

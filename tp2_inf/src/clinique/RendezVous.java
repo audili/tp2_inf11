@@ -7,6 +7,11 @@ import intervenants.Patient;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
+/**
+ * 
+ * @author Auteurs: Alec Durocher, Ali Joudad et Ayoub Moudrika
+ *
+ */
 public class RendezVous implements Serializable {
 
 	private Docteur docteur;		// Docteur consulté pendant le rendez-vous
@@ -48,9 +53,7 @@ public class RendezVous implements Serializable {
 		this.infirmier = infirmier;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

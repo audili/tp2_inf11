@@ -5,6 +5,11 @@ import intervenants.*;
 import java.io.Serializable;
 import java.util.LinkedList;
 
+/**
+ * 
+ * @author Auteurs: Alec Durocher, Ali Joudad et Ayoub Moudrika
+ *
+ */
 @SuppressWarnings("serial")
 public class Clinique implements Serializable {
 
