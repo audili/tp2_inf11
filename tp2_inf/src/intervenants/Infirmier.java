@@ -73,8 +73,9 @@ public class Infirmier implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Infirmier [identifiant=" + identifiant.getNom() + identifiant.getPrenom()+  ", disponibilite="
-				+ estDisponible + "]";
+		
+		String disponibilité = estDisponible ? "disponible" : "indisponible";
+		return "Infirmier " + identifiant + ", Disponibilité : " + disponibilité;
 	}
 
 	@Override

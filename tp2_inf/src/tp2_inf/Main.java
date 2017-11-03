@@ -1,8 +1,12 @@
 package tp2_inf;
+import java.util.Arrays;
 import java.util.Scanner;
+
+import javax.swing.InputMap;
 
 import clinique.*;
 import intervenants.*;
+import intervenants.Docteur.enuDepartements;
 
 /**
  * 
@@ -14,13 +18,14 @@ import intervenants.*;
  */
 
 public class Main {
-	
+
 	private static Clinique clinique;
+	private static Scanner clavier;
 
 	public static void main(String[] args) {
-		
+
 		Clinique cliniqueSauvegardee = UtilitaireFichier.getCliniqueSauvegardee();
-		
+
 		if(cliniqueSauvegardee == null) {
 			clinique = new Clinique();
 		} else {
@@ -28,7 +33,7 @@ public class Main {
 		}
 
 		//Déclaration de la lecture du clavier
-		Scanner clavier = new Scanner(System.in);
+		clavier = new Scanner(System.in);
 
 		int choix = 0; //choix de l'administrateur à la console
 
@@ -69,11 +74,16 @@ public class Main {
 				switch (choix){
 
 				case 1:
-					ajouterDocteur(clavier);
+					ajouterDocteur();
+					break;
 
 				case 2:
+					ajouterInfirmier();
+					break;
 
 				case 3:
+					ajouterPatient();
+					break;
 
 				case 4:
 
@@ -102,32 +112,130 @@ public class Main {
 			} while ( choix < 1 || choix > 14);			
 		}
 	}
-
-
+	
+	
+	
 	/**
-	 * 
-	 * @param clavier 
-	 * 
-	 * Cette méthode demande le nom et le prénom d'un docteur à ajouter.
-	 * 
-	 * STRATÉGIE: Une fois le nom et prénom saisit, nous créons un objet
-	 * nommé "identification".
+	 * Ajoute un docteur dans la clinique depuis les données saisies par l'utilisateur.
 	 */
-	public static void ajouterDocteur(Scanner clavier) {
+	public static void ajouterDocteur() {
 
-		String prenom = "";
+		Identification identification = creerIdentification(clavier, "du docteur.");
+		enuDepartements departement = null;
 
-		while(prenom != null){
-
-			System.out.println("Veuillez entrer le prénom du docteur: ");
-			prenom = clavier.nextLine();
-
+		while(departement == null) {
+			
+			System.out.println("Pour quel département ce docteur travaille-t-il ? " + Arrays.toString(getTableauNomsDeDepartements()));
+			
+			/* Nous séparons la ligne écrite par l'utilisateur par espaces et prenons le premier mot que nous mettons en majuscule. */
+			String nomDepartement =  clavier.nextLine().split(" ")[0].toUpperCase();
+			
+			try {
+				/* Nous essayons de récupérér un département depuis le nomDepartement entré par l'utilisateur */
+				departement = enuDepartements.valueOf(nomDepartement);
+				
+			} catch (IllegalArgumentException e) {
+				/* Si aucune valeur n'a été retrouvée dans l'énumération de départements, laisser departement a null */
+			}
 		}
+		
+		Docteur docteur = new Docteur(identification, departement); 
+		clinique.ajouterDocteur(docteur);
+		System.out.println(docteur + " a été ajouté(e).");
+	}
+	
+	/**
+	 * Ajoute un infirmier dans la clinique depuis les données saisies par l'utilisateur.
+	 */
+	public static void ajouterInfirmier() {
+		
+		Identification identification = creerIdentification(clavier, "de l'infirmier.");
+		Infirmier infirmier = new Infirmier(identification,true);
+		
+		clinique.ajouterInfirmier(infirmier);
+		System.out.println(infirmier + " a été ajouté(e).");
+	}
+	
+	/**
+	 * Ajoute un patient dans la clinique depuis les données saisies par l'utilisateur
+	 */
+	public static void ajouterPatient() {
+		
+		Identification identification = creerIdentification(clavier, "du patient.");
+		String numeroAssuranceSociale = null;
+		
+		while(!estUnNASValide(numeroAssuranceSociale)) {
+			System.out.println("Veuillez entrer le numéro d'assurance sociale du patient (sans tirets et sans espaces).");
+			numeroAssuranceSociale = clavier.nextLine().split(" ")[0];
+		}
+		
+		Patient patient = new Patient(identification, numeroAssuranceSociale);
+		clinique.ajouterPatient(patient);
+		System.out.println(patient + " a été ajouté(e).");
+	}
+	
+	
+	/* ----------------------------------------------------------------------------------------------------------------------- */
+	/* Méthodes privées */
+	
+	/**
+	 * Récupère tous les noms de départements possibles
+	 * @return Tableau contenant les noms de départements possibles en majuscule.
+	 */
+	private static String[] getTableauNomsDeDepartements() {
+		
+		int nbDepartements = enuDepartements.values().length;
+		String[] nomsDepartements = new String[nbDepartements];
+		
+		for(int i =0; i < nbDepartements; i ++) {
 
-		System.out.println("Veuillez entrer le nom du docteur: ");
-		String nom = clavier.nextLine();
+			nomsDepartements[i] = enuDepartements.values()[i].name().toUpperCase();
+		}
+		return nomsDepartements;
+	}
+	
+	/**
+	 * Créer une identification selon les données saisies par un Scanner.
+	 * @param clavier Scanner permettant d'utiliser les entrées de l'utilisateur
+	 * @param suffixeIntervenant Suffixe qui indiquera à l'utilisateur quel type d'intervenant il est en train de créer
+	 * @return
+	 */
+	private static Identification creerIdentification(Scanner clavier, String suffixeIntervenant) {
+		
+		String messageUtilisateurIdentification = "Veuillez entrer le nom et prénom " + suffixeIntervenant;
+		
+		/* Nous prenons la prochaine ligne écrite par l'utilisateur et la divisions avec les espaces pour en faire un tableau de mots.*/
+		String[] tabNomPrenom = clavier.nextLine().split(" ");
 
-		Identification identification = new Identification(prenom, nom);
-		System.out.println("Le Dr. " + identification.toString() + " ajouté.");
+		while(tabNomPrenom.length != 2) {
+
+			System.out.println(messageUtilisateurIdentification);
+			tabNomPrenom = clavier.nextLine().split(" ");
+		}
+		return new Identification(tabNomPrenom[0],tabNomPrenom[1]);
+	}
+	
+	/**
+	 * Détermine si une String est un numéro d'assurance sociale (NAS) valide.
+	 * @param numeroAssuranceSociale String à vérifier
+	 * @return Vrai si la String est valide, faux sinon.
+	 */
+	private static boolean estUnNASValide(String numeroAssuranceSociale) {
+		
+		/* Un NAS canadien doit contenir 9 chiffres */
+		if(numeroAssuranceSociale == null || numeroAssuranceSociale.length() != 9) {
+			return false;
+		}
+		
+		try {
+			
+			/* Si il est impossible de convertir la String numeroAssuranceSociale en integer, cela signifie qu'elle ne contient pas seulement
+			 * des chiffres, donc que c'est invalide. */
+			Integer.parseInt(numeroAssuranceSociale);
+		} catch (Exception e) {
+			return false;
+		}
+		
+		return true;
 	}
 }

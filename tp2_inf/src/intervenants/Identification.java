@@ -26,10 +26,10 @@ public class Identification implements Serializable {
 	
 	/**
 	 * Créé une Identification avec un prénom et un nom donné.
-	 * @param prenom Prénom de l'intervenant
 	 * @param nom Nom de famille de l'intervenant
+	 * @param prenom Prénom de l'intervenant
 	 */
-	public Identification(String prenom, String nom) {
+	public Identification(String nom, String prenom) {
 		this.prenom = prenom;
 		this.nom = nom;
 	}

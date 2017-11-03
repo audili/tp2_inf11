@@ -15,15 +15,14 @@ import java.io.Serializable;
 public class Patient implements Serializable {
 	
 	private Identification identification = new Identification();
-	private int numeroAssuranceSociale;
-
+	private String numeroAssuranceSociale;
 
 	/**
 	 * Crée un patient avec son identification et son numéro d'assurance sociale
 	 * @param identification Nom et prénom du patient
 	 * @param numeroAssuranceSociale Numéro d'assurance sociale du patient
 	 */
-	public Patient(Identification identification,int numeroAssuranceSociale){
+	public Patient(Identification identification,String numeroAssuranceSociale){
 
 		this.identification = identification;
 		this.numeroAssuranceSociale = numeroAssuranceSociale;
@@ -56,18 +55,16 @@ public class Patient implements Serializable {
 	 * Accesseur du numéro d'assurance sociale du patient.
 	 * @return numeroAssuranceSociale
 	 */
-	public int getNumeroAssuranceSociale(){
+	public String getNumeroAssuranceSociale(){
 		return numeroAssuranceSociale;
-
 	}
 
 	/**
 	 * Mutateur du numéro d'assurance sociale du patient.
 	 * @param numeroAssuranceSociale
 	 */
-	public void setNumeroAssuranceSociale(int numeroAssuranceSociale){
+	public void setNumeroAssuranceSociale(String numeroAssuranceSociale){
 		this.numeroAssuranceSociale = numeroAssuranceSociale;
-
 	}
 	/**
 	 * Méthode boolénne qui nous retour ''false'' si deux objets ne sont pas
@@ -76,7 +73,6 @@ public class Patient implements Serializable {
 	@Override
 	public boolean equals (Object obj){
 		return false;
-
 	}
 	
 	/**
@@ -84,9 +80,7 @@ public class Patient implements Serializable {
 	 */
 	@Override
 	public String toString(){
-
-		return (""+identification+" "+numeroAssuranceSociale);
-
+		return ("Patient " + identification+ ", NAS: "+numeroAssuranceSociale);
 	}
 	
 	/**

@@ -55,7 +55,7 @@ public class Docteur implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Docteur " + identification.toString() + ", " + departement;
+		return "Docteur " + identification + ", Département: " + departement;
 	}
 	
 	/**
