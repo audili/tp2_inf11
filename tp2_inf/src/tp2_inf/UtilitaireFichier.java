@@ -37,7 +37,7 @@ public abstract class UtilitaireFichier {
         
         /* Tentative de récupération du fichier et dé-sérialization en object Clinique */
         try {
-        	fichierClinique = new FileInputStream("fileName");
+        	fichierClinique = new FileInputStream(fileName);
         	objetFichierClinique = new ObjectInputStream(fichierClinique);
         	
         	Clinique clinique = (Clinique)objetFichierClinique.readObject();

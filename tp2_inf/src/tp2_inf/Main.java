@@ -48,6 +48,10 @@ public class Main {
 			do{
 
 				//Affichage du menu principal
+				/* TODO : enlever ces lignes de test */
+				clinique.afficherDocteurs();
+				clinique.afficherInfirmiers();
+				clinique.afficherPatients();
 
 				System.out.println
 				("Bienvenue à la clinique, que voulez-vous faire ?\n"
@@ -106,7 +110,9 @@ public class Main {
 				case 13:
 
 				case 14:
-
+					UtilitaireFichier.sauvegardeClinique(clinique);
+					System.exit(0);
+					break;
 				}
 
 			} while ( choix < 1 || choix > 14);			
@@ -173,7 +179,6 @@ public class Main {
 		clinique.ajouterPatient(patient);
 		System.out.println(patient + " a été ajouté(e).");
 	}
-	
 	
 	/* ----------------------------------------------------------------------------------------------------------------------- */
 	/* Méthodes privées */

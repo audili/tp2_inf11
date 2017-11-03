@@ -13,88 +13,121 @@ import java.util.LinkedList;
 @SuppressWarnings("serial")
 public class Clinique implements Serializable {
 
-	private LinkedList<Docteur> listeDocteur = new LinkedList<Docteur>();
-	private LinkedList<Infirmier> listeInfirmier = new LinkedList<Infirmier>();
-	private LinkedList<Patient> listePatient = new LinkedList<Patient>();
+	private LinkedList<Docteur> listeDocteurs = new LinkedList<Docteur>();
+	private LinkedList<Infirmier> listeInfirmiers = new LinkedList<Infirmier>();
+	private LinkedList<Patient> listePatients = new LinkedList<Patient>();
 
 	public LinkedList<Docteur> getListeDocteur() {
-		return listeDocteur;
+		return listeDocteurs;
 	}
 
 	public Docteur getDocteur(int index) {
 
-		if(index < 0 || index > listeDocteur.size() -1) {
+		if(index < 0 || index > listeDocteurs.size() -1) {
 			return null;
 		}
-		return listeDocteur.get(index);
+		return listeDocteurs.get(index);
 	}
 
-	public void setListeDocteur(LinkedList<Docteur> listeDocteur) {
-		this.listeDocteur = listeDocteur;
+	public void setListeDocteurs(LinkedList<Docteur> listeDocteurs) {
+		this.listeDocteurs = listeDocteurs;
 	}
 
 	public boolean ajouterDocteur(Docteur docteur) {
 
-		for(int i = 0; i < listeDocteur.size(); i ++) {
-			if(listeDocteur.get(i).equals(docteur)) {
+		for(int i = 0; i < listeDocteurs.size(); i ++) {
+			if(listeDocteurs.get(i).equals(docteur)) {
 				return false;
 			}
 		}
-		listeDocteur.add(docteur);
+		listeDocteurs.add(docteur);
 		return true;
 	}
 
-	public LinkedList<Infirmier> getListeInfirmier() {
-		return listeInfirmier;
+	public LinkedList<Infirmier> getListeInfirmiers() {
+		return listeInfirmiers;
 	}
 
 	public Infirmier getInfirmier(int index) {
 
-		if(index < 0 || index > listeInfirmier.size() -1) {
+		if(index < 0 || index > listeInfirmiers.size() -1) {
 			return null;
 		}
-		return listeInfirmier.get(index);
+		return listeInfirmiers.get(index);
 	}
 
-	public void setListeInfirmier(LinkedList<Infirmier> listeInfirmier) {
-		this.listeInfirmier = listeInfirmier;
+	public void setListeInfirmiers(LinkedList<Infirmier> listeInfirmiers) {
+		this.listeInfirmiers = listeInfirmiers;
 	}
 
 	public boolean ajouterInfirmier(Infirmier infirmier) {
 
-		for(int i = 0; i < listeInfirmier.size(); i ++) {
-			if(listeInfirmier.get(i).equals(infirmier)) {
+		for(int i = 0; i < listeInfirmiers.size(); i ++) {
+			if(listeInfirmiers.get(i).equals(infirmier)) {
 				return false;
 			}
 		}
-		listeInfirmier.add(infirmier);
+		listeInfirmiers.add(infirmier);
 		return true;
 	}
 
 	public LinkedList<Patient> getListePatient() {
-		return listePatient;
+		return listePatients;
 	}
 
 	public Patient getPatient(int index) {
 
-		if(index < 0 || index > listePatient.size() -1) {
+		if(index < 0 || index > listePatients.size() -1) {
 			return null;
 		}
-		return listePatient.get(index);
+		return listePatients.get(index);
 	}
 
 	public void setListePatient(LinkedList<Patient> listePatient) {
-		this.listePatient = listePatient;
+		this.listePatients = listePatient;
 	}
-	
+
 	public boolean ajouterPatient(Patient patient) {
 
-		for(int i = 0; i < listePatient.size(); i ++) {
-			if(listePatient.get(i).equals(patient)) {
+		for(int i = 0; i < listePatients.size(); i ++) {
+			if(listePatients.get(i).equals(patient)) {
 				return false;
 			}
 		}
-		listePatient.add(patient);
+		listePatients.add(patient);
 		return true;
+	}
+
+	public void afficherDocteurs() {
+
+		System.out.println("Les docteurs de la clinique sont : ");
+
+		for (Docteur docteur : listeDocteurs) {
+			System.out.println("    - " + docteur);
+		}
+		
+		System.out.println("");
+	}
+
+	public void afficherInfirmiers() {
+		
+		System.out.println("Les infirmiers de la clinique sont : ");
+
+		for (Infirmier infirmier : listeInfirmiers) {
+			System.out.println("    - " + infirmier);
+		}		
+
+		System.out.println("");
+	}
+	
+	public void afficherPatients() {
+
+		System.out.println("Les patients de la clinique sont : ");
+
+		for (Patient patient : listePatients) {
+			System.out.println("    - " + patient);
+		}
+		
+		System.out.println("");
 	}
 }
