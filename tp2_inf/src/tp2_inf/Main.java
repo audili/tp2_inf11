@@ -1,6 +1,7 @@
 package tp2_inf;
 import java.util.Scanner;
 
+import clinique.*;
 import intervenants.*;
 
 /**
@@ -13,8 +14,18 @@ import intervenants.*;
  */
 
 public class Main {
+	
+	private static Clinique clinique;
 
 	public static void main(String[] args) {
+		
+		Clinique cliniqueSauvegardee = UtilitaireFichier.getCliniqueSauvegardee();
+		
+		if(cliniqueSauvegardee == null) {
+			clinique = new Clinique();
+		} else {
+			clinique = cliniqueSauvegardee;
+		}
 
 		//Déclaration de la lecture du clavier
 		Scanner clavier = new Scanner(System.in);
