@@ -99,11 +99,17 @@ public class Clinique implements Serializable {
 	}
 
 	public void afficherDocteurs() {
+		
+		if(listeDocteurs.size() == 0) {
+			System.out.println("La clinique ne contient aucun docteur.");
+		}
+		
+		else {
+			System.out.println("Les docteurs de la clinique sont : ");
 
-		System.out.println("Les docteurs de la clinique sont : ");
-
-		for (Docteur docteur : listeDocteurs) {
-			System.out.println("    - " + docteur);
+			for (Docteur docteur : listeDocteurs) {
+				System.out.println("    - " +  docteur);
+			}
 		}
 		
 		System.out.println("");
@@ -111,23 +117,36 @@ public class Clinique implements Serializable {
 
 	public void afficherInfirmiers() {
 		
-		System.out.println("Les infirmiers de la clinique sont : ");
+		if(listeInfirmiers.size() == 0) {
+			System.out.println("La clinique ne contient aucun infirmier.");
+		}
+		
+		else {
+			System.out.println("Les infirmiers de la clinique sont : ");
 
-		for (Infirmier infirmier : listeInfirmiers) {
-			System.out.println("    - " + infirmier);
-		}		
-
+			for (Infirmier infirmier : listeInfirmiers) {
+				System.out.println("    - "  +  infirmier);
+			}
+		}
+		
 		System.out.println("");
 	}
 	
 	public void afficherPatients() {
 
-		System.out.println("Les patients de la clinique sont : ");
+		if(listePatients.size() == 0) {
+			System.out.println("La clinique ne contient aucun patient.");
+		}
+		
+		else {
+			System.out.println("Les patients de la clinique sont : ");
 
-		for (Patient patient : listePatients) {
-			System.out.println("    - " + patient);
+			for (Patient patient : listePatients) {
+				System.out.println("    - " +  patient);
+			}
 		}
 		
 		System.out.println("");
 	}
+	
 }

@@ -26,7 +26,6 @@ public class Patient implements Serializable {
 
 		this.identification = identification;
 		this.numeroAssuranceSociale = numeroAssuranceSociale;
-
 	}
 	
 	/**
@@ -34,7 +33,8 @@ public class Patient implements Serializable {
 	 * @param patient
 	 */
 	public Patient(Patient patient) {
-
+		identification = new Identification();
+		numeroAssuranceSociale = "N/A";
 	}
 
 	/**

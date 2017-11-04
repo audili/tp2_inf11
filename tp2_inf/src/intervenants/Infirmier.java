@@ -15,11 +15,10 @@ public class Infirmier implements Serializable {
 	private boolean estDisponible;
 
 	/**
-	 * Créé un Infirmier avec des valeurs d'Identification et de disponibilit par défaut.
+	 * Créé un Infirmier avec des valeurs d'Identification et de disponibilité par défaut.
 	 */
 	public Infirmier(){
-		identifiant.setNom("Defaut");
-		identifiant.setPrenom("Defaut");
+		identifiant = new Identification();
 		estDisponible = true;
 	}
 
@@ -28,9 +27,8 @@ public class Infirmier implements Serializable {
 	 * @param infirmier Infirmier source
 	 */
 	public Infirmier(Infirmier infirmier) {
-		identifiant = infirmier.getIdentifiant();
+		identifiant = infirmier.getIdentification();
 		estDisponible = infirmier.getDisponibilite();
-
 	}
 
 	/**
@@ -49,12 +47,12 @@ public class Infirmier implements Serializable {
 	 *  disponibilité de l'infirmier
 	 *  */
 
-	public Identification getIdentifiant() {
+	public Identification getIdentification() {
 		return identifiant;
 
 	}
 
-	public void setIdentifiant(Identification identifiant) {
+	public void setIdentification(Identification identifiant) {
 
 		this.identifiant = identifiant;
 
@@ -73,9 +71,8 @@ public class Infirmier implements Serializable {
 
 	@Override
 	public String toString() {
-		
 		String disponibilité = estDisponible ? "disponible" : "indisponible";
-		return "Infirmier " + identifiant + ", Disponibilité : " + disponibilité;
+		return identifiant + ", Disponibilité : " + disponibilité;
 	}
 
 	@Override

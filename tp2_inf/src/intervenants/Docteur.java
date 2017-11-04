@@ -18,6 +18,10 @@ public class Docteur implements Serializable {
 	public enum enuDepartements {
 		CHIRURGIE,URGENCE,UROLOGIE
 	}
+	
+	public Docteur() {
+		identification = new Identification();
+	}
 
 	/**
 	 * Créé un Docteur selon une identification donnéee et un département 
@@ -55,7 +59,7 @@ public class Docteur implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Docteur " + identification + ", Département: " + departement;
+		return identification + ", Département: " + departement;
 	}
 	
 	/**

@@ -48,11 +48,6 @@ public class Main {
 			do{
 
 				//Affichage du menu principal
-				/* TODO : enlever ces lignes de test */
-				clinique.afficherDocteurs();
-				clinique.afficherInfirmiers();
-				clinique.afficherPatients();
-
 				System.out.println
 				("Bienvenue à la clinique, que voulez-vous faire ?\n"
 						+ "1) Ajouter un docteur \n"
@@ -90,6 +85,8 @@ public class Main {
 					break;
 
 				case 4:
+					ajouterRendezVous();
+					break;
 
 				case 5:
 
@@ -118,9 +115,9 @@ public class Main {
 			} while ( choix < 1 || choix > 14);			
 		}
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Ajoute un docteur dans la clinique depuis les données saisies par l'utilisateur.
 	 */
@@ -130,75 +127,111 @@ public class Main {
 		enuDepartements departement = null;
 
 		while(departement == null) {
-			
+
 			System.out.println("Pour quel département ce docteur travaille-t-il ? " + Arrays.toString(getTableauNomsDeDepartements()));
-			
+
 			/* Nous séparons la ligne écrite par l'utilisateur par espaces et prenons le premier mot que nous mettons en majuscule. */
 			String nomDepartement =  clavier.nextLine().split(" ")[0].toUpperCase();
-			
+
 			try {
 				/* Nous essayons de récupérér un département depuis le nomDepartement entré par l'utilisateur */
 				departement = enuDepartements.valueOf(nomDepartement);
-				
+
 			} catch (IllegalArgumentException e) {
 				/* Si aucune valeur n'a été retrouvée dans l'énumération de départements, laisser departement a null */
 			}
 		}
-		
+
 		Docteur docteur = new Docteur(identification, departement); 
 		clinique.ajouterDocteur(docteur);
 		System.out.println(docteur + " a été ajouté(e).");
 	}
-	
+
 	/**
 	 * Ajoute un infirmier dans la clinique depuis les données saisies par l'utilisateur.
 	 */
 	public static void ajouterInfirmier() {
-		
+
 		Identification identification = creerIdentification(clavier, "de l'infirmier.");
 		Infirmier infirmier = new Infirmier(identification,true);
-		
+
 		clinique.ajouterInfirmier(infirmier);
 		System.out.println(infirmier + " a été ajouté(e).");
 	}
-	
+
 	/**
 	 * Ajoute un patient dans la clinique depuis les données saisies par l'utilisateur
 	 */
 	public static void ajouterPatient() {
-		
+
 		Identification identification = creerIdentification(clavier, "du patient.");
 		String numeroAssuranceSociale = null;
-		
+
 		while(!estUnNASValide(numeroAssuranceSociale)) {
 			System.out.println("Veuillez entrer le numéro d'assurance sociale du patient (sans tirets et sans espaces).");
 			numeroAssuranceSociale = clavier.nextLine().split(" ")[0];
 		}
-		
+
 		Patient patient = new Patient(identification, numeroAssuranceSociale);
 		clinique.ajouterPatient(patient);
 		System.out.println(patient + " a été ajouté(e).");
 	}
-	
+
+	/**
+	 * Créé un rendez-vous en demandant à l'utilisateur de choisir un docteur, un infirmier et un patient.
+	 */
+	public static void ajouterRendezVous() {
+
+		if(!peuxCreerRendezVous()) {
+			return;
+		}
+
+		System.out.println("Pour créer un rendez-vous, il vous faut choisir un docteur, un infirmier disponible ainsi qu'un patient.");
+		System.out.println("");
+		
+		System.out.println("1) Choisisez un docteur.");
+		Docteur docteurChoisi = null;
+		
+		while(docteurChoisi == null) {
+			docteurChoisi = choisirDocteur();
+		}
+
+		System.out.println("2) Choisisez un infirmier disponible.");
+		Infirmier infirmierChoisi = null;
+		
+		while(infirmierChoisi == null) {
+			infirmierChoisi = choisirInfirmier();
+		}
+		
+		System.out.println("3) Choisisez un patient.");
+		Patient patientChoisi = null;
+		
+		while(patientChoisi == null) {
+			patientChoisi = choisirPatient();
+		}
+		
+		System.out.println("Veuillez entrer la date et l'heure du rendez-vous.");
+
+	}
+
 	/* ----------------------------------------------------------------------------------------------------------------------- */
 	/* Méthodes privées */
-	
+
 	/**
 	 * Récupère tous les noms de départements possibles
 	 * @return Tableau contenant les noms de départements possibles en majuscule.
 	 */
 	private static String[] getTableauNomsDeDepartements() {
-		
+
 		int nbDepartements = enuDepartements.values().length;
 		String[] nomsDepartements = new String[nbDepartements];
-		
-		for(int i =0; i < nbDepartements; i ++) {
 
+		for(int i =0; i < nbDepartements; i ++) {
 			nomsDepartements[i] = enuDepartements.values()[i].name().toUpperCase();
 		}
 		return nomsDepartements;
 	}
-	
+
 	/**
 	 * Créer une identification selon les données saisies par un Scanner.
 	 * @param clavier Scanner permettant d'utiliser les entrées de l'utilisateur
@@ -206,9 +239,9 @@ public class Main {
 	 * @return
 	 */
 	private static Identification creerIdentification(Scanner clavier, String suffixeIntervenant) {
-		
+
 		String messageUtilisateurIdentification = "Veuillez entrer le nom et prénom " + suffixeIntervenant;
-		
+
 		/* Nous prenons la prochaine ligne écrite par l'utilisateur et la divisions avec les espaces pour en faire un tableau de mots.*/
 		String[] tabNomPrenom = clavier.nextLine().split(" ");
 
@@ -219,28 +252,117 @@ public class Main {
 		}
 		return new Identification(tabNomPrenom[0],tabNomPrenom[1]);
 	}
-	
+
 	/**
 	 * Détermine si une String est un numéro d'assurance sociale (NAS) valide.
 	 * @param numeroAssuranceSociale String à vérifier
 	 * @return Vrai si la String est valide, faux sinon.
 	 */
 	private static boolean estUnNASValide(String numeroAssuranceSociale) {
-		
+
 		/* Un NAS canadien doit contenir 9 chiffres */
 		if(numeroAssuranceSociale == null || numeroAssuranceSociale.length() != 9) {
 			return false;
 		}
-		
+
 		try {
-			
+
 			/* Si il est impossible de convertir la String numeroAssuranceSociale en integer, cela signifie qu'elle ne contient pas seulement
 			 * des chiffres, donc que c'est invalide. */
 			Integer.parseInt(numeroAssuranceSociale);
 		} catch (Exception e) {
 			return false;
 		}
-		
+
 		return true;
+	}
+
+	/**
+	 * Détermine si l'utilisateur peux créer un rendez-vous et affiche pour quelles sont les conditions manquantes s'il y a lieu.
+	 * @return Vrai si la clinique contient un nombre minimum d'intervenants recquis, faux sinon.
+	 */
+	private static boolean peuxCreerRendezVous() {
+
+		boolean peuxCreerRendezVous = true;
+
+		if(clinique.getListeDocteur().size() == 0) {
+			System.out.println("Erreur : Il doit y avoir au moins un docteur d'ajouté dans la clinique.");
+			System.out.println("");
+			peuxCreerRendezVous = false;
+		}
+
+		if(clinique.getListeInfirmiers().size() == 0) {
+			System.out.println("Erreur : Il doit y avoir au moins un infirmier d'ajouté dans la clinique.");
+			System.out.println("");
+			peuxCreerRendezVous = false;
+		}
+
+		if(clinique.getListePatient().size() == 0) {
+			System.out.println("Erreur : Il doit y avoir au moins un patient d'ajouté dans la clinique.");
+			System.out.println("");
+			peuxCreerRendezVous = false;
+		}
+
+		return peuxCreerRendezVous;
+	}
+
+	/**
+	 * Recherche un docteur en comparant l'identification entrée par l'utilisateur avec l'identification de tous les docteurs de la clinique.
+	 * @return Docteur correspondant à l'identification entrée, null si aucun Docteur retrouvé.
+	 */
+	private static Docteur choisirDocteur() {
+
+		clinique.afficherDocteurs();
+		Docteur docteurChoisi = null;
+		Identification identification = creerIdentification(clavier, "du docteur");
+
+		for (Docteur docteur : clinique.getListeDocteur()) {
+
+			if(docteur.getIdentification().equals(identification)) {
+				docteurChoisi = docteur;
+			}
+		}
+
+		return docteurChoisi;
+	}
+
+	/**
+	 * Recherche un infirmier en comparant l'identification entrée par l'utilisateur avec l'identification de tous les infirmiers de la clinique.
+	 * @return Infirmier correspondant à l'identification entrée, null si aucun infirmier retrouvé.
+	 */
+	private static Infirmier choisirInfirmier() {
+
+		clinique.afficherInfirmiers();
+		Infirmier infirmierChoisi = null;
+		Identification identification = creerIdentification(clavier, "de l'infirmier");
+
+		for (Infirmier infirmier : clinique.getListeInfirmiers()) {
+
+			if(infirmier.getIdentification().equals(identification)) {
+				infirmierChoisi = infirmier;
+			}
+		}
+
+		return infirmierChoisi;
+	}
+	
+	/**
+	 * Recherche un infirmier en comparant l'identification entrée par l'utilisateur avec l'identification de tous les infirmiers de la clinique.
+	 * @return Infirmier correspondant à l'identification entrée, null si aucun infirmier retrouvé.
+	 */
+	private static Patient choisirPatient() {
+
+		clinique.afficherPatients();
+		Patient patientChoisi = null;
+		Identification identification = creerIdentification(clavier, "du patient");
+
+		for (Patient patient : clinique.getListePatient()) {
+
+			if(patient.getIdentification().equals(identification)) {
+				patientChoisi = patient;
+			}
+		}
+
+		return patientChoisi;
 	}
 }
