@@ -1,5 +1,6 @@
 package tp2_inf;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Scanner;
 
 import javax.swing.InputMap;
@@ -47,7 +48,7 @@ public class Main {
 
 			do{
 
-				//Affichage du menu principal
+				// Affichage du menu principal
 				System.out.println
 				("Bienvenue à la clinique, que voulez-vous faire ?\n"
 						+ "1) Ajouter un docteur \n"
@@ -65,11 +66,25 @@ public class Main {
 						+ "13) Annuler un rendez-vous \n"
 						+ "14) Quitter \n ");
 
-				//Saisie de clavier de l'administrateur
-				choix = clavier.nextInt(); 
-
-				/*Ce code fait un appel de méthode selon le choix 
-				de l'administrateur.*/
+				// Saisie de clavier de l'administrateur. Nous devons vérifier que l'administrateur entre un chiffre valide.
+				if(clavier.hasNextInt()) {
+					choix = clavier.nextInt();
+				}
+				else {
+					
+					/* S'il est impossible d'interpréter l'entrée de l'administrateur en integer, nous devons consommer 
+					 * la prochaine ligne du Scanner pour empêcher la boucle infinie. */
+					clavier.nextLine();
+					choix = 0;
+				}
+				
+				/* Si l'entrée de l'utilisateur était invalide (pas un nombre) ou que le nombre inscrit 
+				 * n'est pas entre 1 et 14, avertir l'administrateur de son erreur. */
+				if(choix < 1 || choix > 14) {
+					System.out.println("Erreur : Veuillez saisir un nombre correspondant aux options numérotées. Retour au menu principal.");
+				}
+				
+				/*Ce code fait un appel de méthode selon le choix de fonctionnalité de l'administrateur.*/
 				switch (choix){
 
 				case 1:
@@ -112,7 +127,6 @@ public class Main {
 					System.exit(0);
 					break;
 				}
-
 			} while ( choix < 1 || choix > 14);			
 		}
 	}
@@ -125,8 +139,7 @@ public class Main {
 	 */
 	public static void ajouterDocteur() {
 
-		Identification identification = creerIdentification(clavier, 
-				"du docteur.");
+		Identification identification = creerIdentification(clavier, "du docteur.");
 		enuDepartements departement = null;
 
 		while(departement == null) {
@@ -160,8 +173,7 @@ public class Main {
 	 */
 	public static void ajouterInfirmier() {
 
-		Identification identification = creerIdentification(clavier, "de "
-				+ "l'infirmier.");
+		Identification identification = creerIdentification(clavier, "de l'infirmier.");
 		Infirmier infirmier = new Infirmier(identification,true);
 
 		clinique.ajouterInfirmier(infirmier);
@@ -200,7 +212,7 @@ public class Main {
 		}
 
 		System.out.println("Pour créer un rendez-vous, il vous faut choisir "
-				+ "un docteur, un infirmier disponible ainsi qu'un patient.");
+				+ "un docteur, un infirmier disponible, un patient et une date.");
 		System.out.println("");
 
 		System.out.println("1) Choisisez un docteur.");
@@ -224,8 +236,12 @@ public class Main {
 			patientChoisi = choisirPatient();
 		}
 
-		System.out.println("Veuillez entrer la date et l'heure "
-				+ "du rendez-vous.");
+		System.out.println("4) Choisisez la date et l'heure du rendez-vous (AAAA-mm-jj).");
+		Date dateRdv = null;
+		
+		while(dateRdv == null) {
+			dateRdv = choisirDate();
+		}
 		
 
 	}
@@ -254,8 +270,7 @@ public class Main {
 	 * type d'intervenant il est en train de créer
 	 * @return
 	 */
-	private static Identification creerIdentification(Scanner clavier, 
-			String suffixeIntervenant) {
+	private static Identification creerIdentification(Scanner clavier, String suffixeIntervenant) {
 
 		String messageUtilisateurIdentification = "Veuillez entrer le nom et "
 				+ "prénom " + suffixeIntervenant;
@@ -399,5 +414,16 @@ public class Main {
 		}
 
 		return patientChoisi;
+	}
+	
+	private static Date choisirDate() {
+		
+		String ligne = clavier.nextLine();
+		String[] tabDate = ligne.split("-");
+		
+		if(tabDate.length != 3) {
+			System.out.println("Erreur : Veuillez entrer la date sous le format suivant : AAAA-mm-JJ");
+		}
+		return null;
 	}
 }
