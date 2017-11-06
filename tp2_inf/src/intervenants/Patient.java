@@ -9,11 +9,13 @@ import java.io.Serializable;
  * seront aux attributs du patient.
  * 
  * Auteurs: Alec Durocher, Ali Joudad et Ayoub Moudrika
+ * 
+ * Dernière date de modification: 11-05-2017
  *
  */
 @SuppressWarnings("serial")
 public class Patient implements Serializable {
-	
+
 	private Identification identification = new Identification();
 	private String numeroAssuranceSociale;
 
@@ -27,7 +29,7 @@ public class Patient implements Serializable {
 		this.identification = identification;
 		this.numeroAssuranceSociale = numeroAssuranceSociale;
 	}
-	
+
 	/**
 	 * Constructeur 2 de l'objet patient.
 	 * @param patient
@@ -45,7 +47,7 @@ public class Patient implements Serializable {
 	public Identification getIdentification(){
 		return identification;
 	}
-	
+
 	//Mutateur de l'identification du patient.
 	public void setIdentification(Identification identification){
 
@@ -74,7 +76,7 @@ public class Patient implements Serializable {
 	public boolean equals (Object obj){
 		return false;
 	}
-	
+
 	/**
 	 * Méthode qui sert à l'affichage de l'objet Patient.
 	 */
@@ -82,7 +84,7 @@ public class Patient implements Serializable {
 	public String toString(){
 		return ("Patient " + identification+ ", NAS: "+numeroAssuranceSociale);
 	}
-	
+
 	/**
 	 *  Clone le patient en cours.
 	 */

@@ -10,14 +10,27 @@ import java.io.Serializable;
 /**
  * 
  * @author Auteurs: Alec Durocher, Ali Joudad et Ayoub Moudrika
- *
+ * 
+ *  Dernière date de modification: 11-05-2017
+ * 
+ * La classe rendez-vous, prends comme attribut un docteur, infirmier et 
+ * patient.
+ * 
  */
+
+
 public class RendezVous implements Serializable {
 
 	private Docteur docteur;		// Docteur consulté pendant le rendez-vous
 	private Patient patient; 		// Patient ayant consulté le Docteur
 	private Infirmier infirmier;	// Infirmier ayant aidé le Docteur
 
+	/**
+	 * Méthode constructeur d'un rendez-vous, qui prend en paramètre:
+	 * @param patient
+	 * @param docteur
+	 * @param infirmier
+	 */
 	public RendezVous(Patient patient, Docteur docteur, Infirmier infirmier) {
 
 		if(patient == null || docteur == null || infirmier == null) {
@@ -28,27 +41,51 @@ public class RendezVous implements Serializable {
 		this.docteur = docteur;
 		this.infirmier = infirmier;
 	}
-
+	
+	/**
+	 *  Méthode accesseur qui retourne le Docteur.
+	 * @return
+	 */
 	public Docteur getDocteur() {
 		return docteur;
 	}
-
+	
+	/**
+	 * Méthode mutateur qui modifie le Docteur.
+	 * @param docteur
+	 */
 	public void setDocteur(Docteur docteur) {
 		this.docteur = docteur;
 	}
-
+	
+	/**
+	 * Méthode accesseur qui retourne le patient.
+	 * @return
+	 */
 	public Patient getPatient() {
 		return patient;
 	}
-
+	
+	/**
+	 * Méthode mutateur qui modifie le patient.
+	 * @param patient
+	 */
 	public void setPatient(Patient patient) {
 		this.patient = patient;
 	}
-
+	
+	/**
+	 *  Méthode accesseur qui retourne un infirmier.
+	 * @return
+	 */
 	public Infirmier getInfirmier() {
 		return infirmier;
 	}
-
+	
+	/**
+	 *  Méthode mutateur qui retourne un infirmier.
+	 * @param infirmier
+	 */
 	public void setInfirmier(Infirmier infirmier) {
 		this.infirmier = infirmier;
 	}
@@ -81,6 +118,7 @@ public class RendezVous implements Serializable {
 		return true;
 	}
 
+	// Méthode qui retourne un String.
 	public String toString() {
 		return docteur.toString() + " " + infirmier.toString() + " " + patient.toString();
 	}

@@ -8,6 +8,8 @@ import java.io.Serializable;
 /**
  * 
  * @author Auteurs: Alec Durocher, Ali Joudad et Ayoub Moudrika
+ * 
+ *  Dernière date de modification: 11-05-2017
  *
  */
 @SuppressWarnings("serial")
@@ -43,18 +45,22 @@ public class Identification implements Serializable {
 		nom = identification.getNom();
 	}
 	
+	//Méthode accesseur pour le prénom.
 	public String getPrenom() {
 		return prenom;
 	}
 	
+	//Méthode mutateur pour le prénom.
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}
 	
+	//Méthode accesseur pour le nom.
 	public String getNom() {
 		return nom;
 	}
 	
+	//Méthode mutateur pour le nom.
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
@@ -63,8 +69,9 @@ public class Identification implements Serializable {
 		return nom + " " + prenom;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
+	/**
+	 *  Méthode qui vérifie si deux objets infirmiers sont similaires (donc sont
+	 *  le même infirmier). En vérifiant l'identifiant et la disponibilité.
 	 */
 	@Override
 	public boolean equals(Object obj) {

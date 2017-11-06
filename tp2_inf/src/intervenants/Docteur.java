@@ -7,7 +7,10 @@ import java.io.Serializable;
 /**
  * Cette classe crée un docteur dans la clinique. Pour créer un docteur, il faut
  * son identifiant et son département.
+ * 
  * @author Auteurs: Alec Durocher, Ali Joudad et Ayoub Moudrika
+ * 
+ * Dernière date de modification: 11-05-2017
  *
  */
 public class Docteur implements Serializable {

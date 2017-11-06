@@ -90,6 +90,7 @@ public class Main {
 
 				case 5:
 
+
 				case 6:
 
 				case 7:
@@ -119,26 +120,32 @@ public class Main {
 
 
 	/**
-	 * Ajoute un docteur dans la clinique depuis les données saisies par l'utilisateur.
+	 * Ajoute un docteur dans la clinique depuis les données saisies par 
+	 * l'utilisateur.
 	 */
 	public static void ajouterDocteur() {
 
-		Identification identification = creerIdentification(clavier, "du docteur.");
+		Identification identification = creerIdentification(clavier, 
+				"du docteur.");
 		enuDepartements departement = null;
 
 		while(departement == null) {
 
-			System.out.println("Pour quel département ce docteur travaille-t-il ? " + Arrays.toString(getTableauNomsDeDepartements()));
+			System.out.println("Pour quel département ce docteur travaille-t-il "
+					+ "? " + Arrays.toString(getTableauNomsDeDepartements()));
 
-			/* Nous séparons la ligne écrite par l'utilisateur par espaces et prenons le premier mot que nous mettons en majuscule. */
+			/* Nous séparons la ligne écrite par l'utilisateur par espaces et 
+			 * prenons le premier mot que nous mettons en majuscule. */
 			String nomDepartement =  clavier.nextLine().split(" ")[0].toUpperCase();
 
 			try {
-				/* Nous essayons de récupérér un département depuis le nomDepartement entré par l'utilisateur */
+				/* Nous essayons de récupérér un département depuis le 
+				 * nomDepartement entré par l'utilisateur */
 				departement = enuDepartements.valueOf(nomDepartement);
 
 			} catch (IllegalArgumentException e) {
-				/* Si aucune valeur n'a été retrouvée dans l'énumération de départements, laisser departement a null */
+				/* Si aucune valeur n'a été retrouvée dans l'énumération de 
+				 * départements, laisser departement a null */
 			}
 		}
 
@@ -148,11 +155,13 @@ public class Main {
 	}
 
 	/**
-	 * Ajoute un infirmier dans la clinique depuis les données saisies par l'utilisateur.
+	 * Ajoute un infirmier dans la clinique depuis les données saisies par 
+	 * l'utilisateur.
 	 */
 	public static void ajouterInfirmier() {
 
-		Identification identification = creerIdentification(clavier, "de l'infirmier.");
+		Identification identification = creerIdentification(clavier, "de "
+				+ "l'infirmier.");
 		Infirmier infirmier = new Infirmier(identification,true);
 
 		clinique.ajouterInfirmier(infirmier);
@@ -160,15 +169,18 @@ public class Main {
 	}
 
 	/**
-	 * Ajoute un patient dans la clinique depuis les données saisies par l'utilisateur
+	 * Ajoute un patient dans la clinique depuis les données saisies par 
+	 * l'utilisateur
 	 */
 	public static void ajouterPatient() {
 
-		Identification identification = creerIdentification(clavier, "du patient.");
+		Identification identification = creerIdentification(clavier, 
+				"du patient.");
 		String numeroAssuranceSociale = null;
 
 		while(!estUnNASValide(numeroAssuranceSociale)) {
-			System.out.println("Veuillez entrer le numéro d'assurance sociale du patient (sans tirets et sans espaces).");
+			System.out.println("Veuillez entrer le numéro d'assurance sociale "
+					+ "du patient (sans tirets et sans espaces).");
 			numeroAssuranceSociale = clavier.nextLine().split(" ")[0];
 		}
 
@@ -178,7 +190,8 @@ public class Main {
 	}
 
 	/**
-	 * Créé un rendez-vous en demandant à l'utilisateur de choisir un docteur, un infirmier et un patient.
+	 * Créé un rendez-vous en demandant à l'utilisateur de choisir un docteur, 
+	 * un infirmier et un patient.
 	 */
 	public static void ajouterRendezVous() {
 
@@ -186,36 +199,38 @@ public class Main {
 			return;
 		}
 
-		System.out.println("Pour créer un rendez-vous, il vous faut choisir un docteur, un infirmier disponible ainsi qu'un patient.");
+		System.out.println("Pour créer un rendez-vous, il vous faut choisir "
+				+ "un docteur, un infirmier disponible ainsi qu'un patient.");
 		System.out.println("");
-		
+
 		System.out.println("1) Choisisez un docteur.");
 		Docteur docteurChoisi = null;
-		
+
 		while(docteurChoisi == null) {
 			docteurChoisi = choisirDocteur();
 		}
 
 		System.out.println("2) Choisisez un infirmier disponible.");
 		Infirmier infirmierChoisi = null;
-		
+
 		while(infirmierChoisi == null) {
 			infirmierChoisi = choisirInfirmier();
 		}
-		
+
 		System.out.println("3) Choisisez un patient.");
 		Patient patientChoisi = null;
-		
+
 		while(patientChoisi == null) {
 			patientChoisi = choisirPatient();
 		}
+
+		System.out.println("Veuillez entrer la date et l'heure "
+				+ "du rendez-vous.");
 		
-		System.out.println("Veuillez entrer la date et l'heure du rendez-vous.");
 
 	}
 
-	/* ----------------------------------------------------------------------------------------------------------------------- */
-	/* Méthodes privées */
+	/* ---------------------Méthodes privées-------------------------------- */
 
 	/**
 	 * Récupère tous les noms de départements possibles
@@ -235,14 +250,18 @@ public class Main {
 	/**
 	 * Créer une identification selon les données saisies par un Scanner.
 	 * @param clavier Scanner permettant d'utiliser les entrées de l'utilisateur
-	 * @param suffixeIntervenant Suffixe qui indiquera à l'utilisateur quel type d'intervenant il est en train de créer
+	 * @param suffixeIntervenant Suffixe qui indiquera à l'utilisateur quel 
+	 * type d'intervenant il est en train de créer
 	 * @return
 	 */
-	private static Identification creerIdentification(Scanner clavier, String suffixeIntervenant) {
+	private static Identification creerIdentification(Scanner clavier, 
+			String suffixeIntervenant) {
 
-		String messageUtilisateurIdentification = "Veuillez entrer le nom et prénom " + suffixeIntervenant;
+		String messageUtilisateurIdentification = "Veuillez entrer le nom et "
+				+ "prénom " + suffixeIntervenant;
 
-		/* Nous prenons la prochaine ligne écrite par l'utilisateur et la divisions avec les espaces pour en faire un tableau de mots.*/
+		/* Nous prenons la prochaine ligne écrite par l'utilisateur et la 
+		 * division avec les espaces pour en faire un tableau de mots.*/
 		String[] tabNomPrenom = clavier.nextLine().split(" ");
 
 		while(tabNomPrenom.length != 2) {
@@ -261,14 +280,16 @@ public class Main {
 	private static boolean estUnNASValide(String numeroAssuranceSociale) {
 
 		/* Un NAS canadien doit contenir 9 chiffres */
-		if(numeroAssuranceSociale == null || numeroAssuranceSociale.length() != 9) {
+		if(numeroAssuranceSociale == null || numeroAssuranceSociale.length() 
+				!= 9) {
 			return false;
 		}
 
 		try {
 
-			/* Si il est impossible de convertir la String numeroAssuranceSociale en integer, cela signifie qu'elle ne contient pas seulement
-			 * des chiffres, donc que c'est invalide. */
+			/* Si il est impossible de convertir la String numeroAssurance
+			 * Sociale en integer, cela signifie qu'elle ne contient pas 
+			 * seulement des chiffres, donc que c'est invalide. */
 			Integer.parseInt(numeroAssuranceSociale);
 		} catch (Exception e) {
 			return false;
@@ -278,27 +299,32 @@ public class Main {
 	}
 
 	/**
-	 * Détermine si l'utilisateur peux créer un rendez-vous et affiche pour quelles sont les conditions manquantes s'il y a lieu.
-	 * @return Vrai si la clinique contient un nombre minimum d'intervenants recquis, faux sinon.
+	 * Détermine si l'utilisateur peux créer un rendez-vous et affiche pour 
+	 * quelles sont les conditions manquantes s'il y a lieu.
+	 * @return Vrai si la clinique contient un nombre minimum d'intervenants 
+	 * recquis, faux sinon.
 	 */
 	private static boolean peuxCreerRendezVous() {
 
 		boolean peuxCreerRendezVous = true;
 
 		if(clinique.getListeDocteur().size() == 0) {
-			System.out.println("Erreur : Il doit y avoir au moins un docteur d'ajouté dans la clinique.");
+			System.out.println("Erreur : Il doit y avoir au moins "
+					+ "un docteur d'ajouté dans la clinique.");
 			System.out.println("");
 			peuxCreerRendezVous = false;
 		}
 
 		if(clinique.getListeInfirmiers().size() == 0) {
-			System.out.println("Erreur : Il doit y avoir au moins un infirmier d'ajouté dans la clinique.");
+			System.out.println("Erreur : Il doit y avoir au moins "
+					+ "un infirmier d'ajouté dans la clinique.");
 			System.out.println("");
 			peuxCreerRendezVous = false;
 		}
 
 		if(clinique.getListePatient().size() == 0) {
-			System.out.println("Erreur : Il doit y avoir au moins un patient d'ajouté dans la clinique.");
+			System.out.println("Erreur : Il doit y avoir au moins "
+					+ "un patient d'ajouté dans la clinique.");
 			System.out.println("");
 			peuxCreerRendezVous = false;
 		}
@@ -307,14 +333,17 @@ public class Main {
 	}
 
 	/**
-	 * Recherche un docteur en comparant l'identification entrée par l'utilisateur avec l'identification de tous les docteurs de la clinique.
-	 * @return Docteur correspondant à l'identification entrée, null si aucun Docteur retrouvé.
+	 * Recherche un docteur en comparant l'identification entrée par 
+	 * l'utilisateur avec l'identification de tous les docteurs de la clinique.
+	 * @return Docteur correspondant à l'identification entrée, null 
+	 * si aucun Docteur retrouvé.
 	 */
 	private static Docteur choisirDocteur() {
 
 		clinique.afficherDocteurs();
 		Docteur docteurChoisi = null;
-		Identification identification = creerIdentification(clavier, "du docteur");
+		Identification identification = creerIdentification
+				(clavier, "du docteur");
 
 		for (Docteur docteur : clinique.getListeDocteur()) {
 
@@ -327,14 +356,17 @@ public class Main {
 	}
 
 	/**
-	 * Recherche un infirmier en comparant l'identification entrée par l'utilisateur avec l'identification de tous les infirmiers de la clinique.
-	 * @return Infirmier correspondant à l'identification entrée, null si aucun infirmier retrouvé.
+	 * Recherche un infirmier en comparant l'identification entrée par 
+	 * l'utilisateur avec l'identification de tous les infirmiers de la clinique.
+	 * @return Infirmier correspondant à l'identification entrée, null si aucun 
+	 * infirmier retrouvé.
 	 */
 	private static Infirmier choisirInfirmier() {
 
 		clinique.afficherInfirmiers();
 		Infirmier infirmierChoisi = null;
-		Identification identification = creerIdentification(clavier, "de l'infirmier");
+		Identification identification = creerIdentification(clavier, 
+				"de l'infirmier");
 
 		for (Infirmier infirmier : clinique.getListeInfirmiers()) {
 
@@ -345,16 +377,19 @@ public class Main {
 
 		return infirmierChoisi;
 	}
-	
+
 	/**
-	 * Recherche un infirmier en comparant l'identification entrée par l'utilisateur avec l'identification de tous les infirmiers de la clinique.
-	 * @return Infirmier correspondant à l'identification entrée, null si aucun infirmier retrouvé.
+	 * Recherche un infirmier en comparant l'identification entrée par 
+	 * l'utilisateur avec l'identification de tous les infirmiers de la clinique.
+	 * @return Infirmier correspondant à l'identification entrée, null 
+	 * si aucun infirmier retrouvé.
 	 */
 	private static Patient choisirPatient() {
 
 		clinique.afficherPatients();
 		Patient patientChoisi = null;
-		Identification identification = creerIdentification(clavier, "du patient");
+		Identification identification = creerIdentification(clavier, 
+				"du patient");
 
 		for (Patient patient : clinique.getListePatient()) {
 

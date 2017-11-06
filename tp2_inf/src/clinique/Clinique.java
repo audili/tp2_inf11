@@ -8,6 +8,8 @@ import java.util.LinkedList;
 /**
  * 
  * @author Auteurs: Alec Durocher, Ali Joudad et Ayoub Moudrika
+ * 
+ *  Dernière date de modification: 11-05-2017
  *
  */
 @SuppressWarnings("serial")
