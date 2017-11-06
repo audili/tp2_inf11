@@ -1,6 +1,8 @@
 package tp2_inf;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 import javax.swing.InputMap;
@@ -212,7 +214,7 @@ public class Main {
 		}
 
 		System.out.println("Pour créer un rendez-vous, il vous faut choisir "
-				+ "un docteur, un infirmier disponible, un patient et une date.");
+				+ "un docteur, un infirmier disponible, un patient, une date et une heure.");
 		System.out.println("");
 
 		System.out.println("1) Choisisez un docteur.");
@@ -236,13 +238,23 @@ public class Main {
 			patientChoisi = choisirPatient();
 		}
 
-		System.out.println("4) Choisisez la date et l'heure du rendez-vous (AAAA-mm-jj).");
+		System.out.println("4) Choisisez la date du rendez-vous (AAAA-mm-jj).");
 		Date dateRdv = null;
 		
 		while(dateRdv == null) {
 			dateRdv = choisirDate();
 		}
 		
+		System.out.println("5) Choisisez l'heure du rendez-vous (HH:mm).");
+		boolean heureEstValide = false;
+		
+		while(!heureEstValide) {
+			heureEstValide = choisirHeure(dateRdv);
+		}
+		
+		// TODO : récupérer le calendrier de la clinique et vérifier si une plage horaire pour cette date existe.
+		// En créer une sinon et l'ajouter au calendrier. Dans les deux cas, crééer un nouveau rdv avec docteurChoisi, infirmierChoisi et patientChoisi
+		// et l'ajouter dans la collection rdv de la plageHoraire.
 
 	}
 
@@ -416,6 +428,10 @@ public class Main {
 		return patientChoisi;
 	}
 	
+	/**
+	 * Créé une date à partir de l'entrée au clavier de l'administrateur.
+	 * @return Date formée par l'entrée de l'administrateur, null si impossible de convertir en date valide.
+	 */
 	private static Date choisirDate() {
 		
 		String ligne = clavier.nextLine();
@@ -423,7 +439,70 @@ public class Main {
 		
 		if(tabDate.length != 3) {
 			System.out.println("Erreur : Veuillez entrer la date sous le format suivant : AAAA-mm-JJ");
+			return null;
 		}
-		return null;
+		
+		try {
+			
+			/* Nous essayons de construir une date avec l'entrée de l'administrateur. Si le format
+			 * est bon mais il est impossible de convertir en date valide, en avertir l'administrateur */
+			int année = Integer.parseInt(tabDate[0]); 
+			int mois = Integer.parseInt(tabDate[1]) - 1; // Nous faisons -1 car l'intervalle est de 0-11 
+			int jour = Integer.parseInt(tabDate[2]);
+			
+			Calendar calendrier = Calendar.getInstance();
+			Date dateAjd = calendrier.getTime();
+			calendrier.setLenient(false); // Nécéssaire pour valider les dates (ex: les mois sans 31)
+			
+			calendrier.set(année, mois, jour);
+			Date dateRdv = calendrier.getTime();
+			
+			/* Il faut empêcher l'administrateur de créer un rdv dans le passé. */
+			if(dateRdv.before(dateAjd)) {
+				System.out.println("Erreur : Impossible de créer un rendez-vous dans le passé.");
+				return null;
+			}
+			
+			return dateRdv;
+			
+		} catch(Exception e) {
+			System.out.println("Erreur : Impossible de convertir en date valide.");
+			return null;
+		}
+	}
+	
+	/**
+	 * Définie l'heure pour une date passée en paramètre selon l'entrée saisie par l'administrateur.
+	 * @param date Date où l'on veut choisir l'heure.
+	 * @return Vrai si une heure valide a put être affectée à la date, faux sinon.
+	 */
+	@SuppressWarnings("deprecation")
+	private static boolean choisirHeure(Date date) {
+		
+		String ligne = clavier.nextLine();
+		String[] tabHeure = ligne.split(":");
+		
+		if(tabHeure.length != 2) {
+			System.out.println("Erreur : Veuillez entrer l'heure sout le format suivant : HH:mm");
+			return false;
+		}
+		
+		try {
+			
+			int heure = Integer.parseInt(tabHeure[0]);
+			int minutes = Integer.parseInt(tabHeure[1]);
+			
+			if(heure < 0 || heure > 23 || minutes < 0 || minutes > 59) {
+				throw new Exception();
+			}
+			
+			date.setHours(heure);
+			date.setMinutes(minutes);
+			
+		} catch(Exception e) {
+			System.out.println("Erreur : Impossible de convertir en heure valide.");
+			return false;
+		}
+		return true;
 	}
 }

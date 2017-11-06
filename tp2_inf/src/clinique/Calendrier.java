@@ -8,10 +8,10 @@ import intervenants.Docteur;
 import intervenants.Infirmier;
 import intervenants.Patient;
 
+@SuppressWarnings("serial")
 public class Calendrier implements Serializable {
 	
 	private FilePlageHoraire  plageHoraire;
-	
 	
 	public FilePlageHoraire getPlageHoraire()   {
 		return plageHoraire;	
@@ -34,29 +34,19 @@ public class Calendrier implements Serializable {
 			
 		}
 		return false ; 
-		
-		
+				
 	}
 	
-	public   RendezVous obtenirProchainRendezVousPatient (Patient patient ,PlageHoraire plageHoraire ){
-		for (int i=0; i < plageHoraire.getRendezVous().size() ; i++  ) {
-			
+	public RendezVous obtenirProchainRendezVousPatient (Patient patient ,PlageHoraire plageHoraire ){
+		
+		for (int i =0; i < plageHoraire.getRendezVous().size(); i++) {			
 			if (plageHoraire.getRendezVous().get(i).getPatient() == patient ) {
-				
 				this.plageHoraire.defile() ; 
-				
-				
-				
 			}
-		 
-			
-			
 			return  this.plageHoraire.getTete().getPlageHoraire().getRendezVous().get(i);
 		}
-	
 		
 		return null ; 
-		
 	}
 	
   public RendezVous obtenirProchainRendezVousInfirmier(Infirmier infirmier , PlageHoraire plageHoraire) {
