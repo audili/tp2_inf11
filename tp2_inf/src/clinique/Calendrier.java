@@ -86,6 +86,22 @@ public class Calendrier implements Serializable {
 	   return null ; 
    }
    
+   
+   public boolean annulerRendezVous( RendezVous rendezvous , PlageHoraire plageHoraire  ) {
+	   
+	    for (int i=0 ; i < this.plageHoraire.getTete().getPlageHoraire().getRendezVous().size() ; i++){
+		   
+		   if (this.plageHoraire.equals(rendezvous)) {
+			   this.plageHoraire.defile();
+			   
+			   return true ; 
+		   }
+		   
+	   }
+	   
+	   return false ;
+   }
+   
 
   
 	
@@ -103,7 +119,6 @@ public class Calendrier implements Serializable {
 		return plageHorairee;
 		
 	}
-	
 	
 	
 }
