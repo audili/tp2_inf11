@@ -18,6 +18,15 @@ public class Clinique implements Serializable {
 	private LinkedList<Docteur> listeDocteurs = new LinkedList<Docteur>();
 	private LinkedList<Infirmier> listeInfirmiers = new LinkedList<Infirmier>();
 	private LinkedList<Patient> listePatients = new LinkedList<Patient>();
+	private Calendrier calendrier = new Calendrier();
+	
+	public Calendrier getCalendrier() {
+		return calendrier;
+	}
+	
+	public void setCalendrier(Calendrier calendrier) {
+		this.calendrier = calendrier;
+	}
 
 	public LinkedList<Docteur> getListeDocteur() {
 		return listeDocteurs;
