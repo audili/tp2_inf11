@@ -1,7 +1,9 @@
 package clinique;
 
+import java.io.Serializable;
 
-public class FilePlageHoraire {
+@SuppressWarnings("serial")
+public class FilePlageHoraire  implements Serializable {
 
 	private Maillon tete ; 
 
