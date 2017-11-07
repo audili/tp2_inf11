@@ -214,7 +214,9 @@ public class Main {
 		}
 
 		System.out.println("Pour créer un rendez-vous, il vous faut choisir "
-				+ "un docteur, un infirmier disponible, un patient, une date et une heure.");
+				+ "un docteur, un infirmier disponible, "
+				+ "un patient, une date et une heure.");
+		
 		System.out.println("");
 
 		System.out.println("1) Choisisez un docteur.");
@@ -251,11 +253,41 @@ public class Main {
 		while(!heureEstValide) {
 			heureEstValide = choisirHeure(dateRdv);
 		}
-		
-		// TODO : récupérer le calendrier de la clinique et vérifier si une plage horaire pour cette date existe.
-		// En créer une sinon et l'ajouter au calendrier. Dans les deux cas, crééer un nouveau rdv avec docteurChoisi, infirmierChoisi et patientChoisi
-		// et l'ajouter dans la collection rdv de la plageHoraire.
 
+		RendezVous rendezVous = new RendezVous(patientChoisi, docteurChoisi, 
+				infirmierChoisi);	
+		PlageHoraire plageHoraire = new PlageHoraire(dateRdv);		
+		clinique.getCalendrier().ajouterRendezvous(plageHoraire, rendezVous);
+		
+		System.out.println(rendezVous + " créé.");
+	}
+	
+	/**
+	 * Trouve un rendez-vous 
+	 */
+	public void trouverRendezVous() {
+		
+		Patient patientChoisi= null;
+		
+		while(patientChoisi == null) {
+			patientChoisi = choisirPatient();
+		}
+		
+		System.out.println("Choisisez la date du rendez-vous (AAAA-mm-jj).");
+		Date dateRdv = null;
+		
+		while(dateRdv == null) {
+			dateRdv = choisirDate();
+		}
+		
+		System.out.println("Choisisez l'heure du rendez-vous (HH:mm).");
+		boolean heureEstValide = false;
+		
+		while(!heureEstValide) {
+			heureEstValide = choisirHeure(dateRdv);
+		}
+		
+		
 	}
 
 	/* ---------------------Méthodes privées-------------------------------- */
@@ -419,9 +451,9 @@ public class Main {
 				"du patient");
 
 		for (Patient patient : clinique.getListePatient()) {
-
 			if(patient.getIdentification().equals(identification)) {
 				patientChoisi = patient;
+				break;
 			}
 		}
 
