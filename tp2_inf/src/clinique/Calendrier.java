@@ -21,7 +21,7 @@ public class Calendrier implements Serializable {
 		return filePlageHoraire;	
 	}
 
-	public void setPlageHoraire(FilePlageHoraire plageHoraire) {
+	public void setPlageHoraire(FilePlageHoraire plageHoraire) { 
 		this.filePlageHoraire = plageHoraire;
 	}
 
