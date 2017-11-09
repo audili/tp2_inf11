@@ -27,7 +27,8 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		Clinique cliniqueSauvegardee = UtilitaireFichier.getCliniqueSauvegardee();
+		Clinique cliniqueSauvegardee = UtilitaireFichier
+				.getCliniqueSauvegardee();
 
 		if(cliniqueSauvegardee == null) {
 			clinique = new Clinique();
@@ -53,40 +54,48 @@ public class Main {
 				// Affichage du menu principal
 				System.out.println
 				("Bienvenue à la clinique, que voulez-vous faire ?\n"
-						+ "1) Ajouter un docteur \n"
-						+ "2) Ajouter un infirmier \n"
-						+ "3) Ajouter un patient \n"
-						+ "4) Ajouter un rendez-vous \n"
-						+ "5) Trouver un rendez-vous pour un patient \n"
-						+ "6) Afficher le prochain rendez-vous d'un docteur \n"
-						+ "7) Afficher le prochain rendez-vous d'un infirmier \n"
-						+ "8) Afficher le prochain rendez-vous d'un patient \n"
-						+ "9) Passer à la prochaine plage horaire \n"
-						+ "10) Afficher le calendrier complet \n"
-						+ "11) Afficher le calendrier complet d'un docteur \n"
-						+ "12) Afficher le calendrier complet d'un infirmier \n"
-						+ "13) Annuler un rendez-vous \n"
-						+ "14) Quitter \n ");
+					+ "1) Ajouter un docteur \n"
+					+ "2) Ajouter un infirmier \n"
+					+ "3) Ajouter un patient \n"
+					+ "4) Ajouter un rendez-vous \n"
+					+ "5) Trouver un rendez-vous pour un patient \n"
+					+ "6) Afficher le prochain rendez-vous d'un docteur \n"
+					+ "7) Afficher le prochain rendez-vous d'un infirmier \n"
+					+ "8) Afficher le prochain rendez-vous d'un patient \n"
+					+ "9) Passer à la prochaine plage horaire \n"
+					+ "10) Afficher le calendrier complet \n"
+					+ "11) Afficher le calendrier complet d'un docteur \n"
+					+ "12) Afficher le calendrier complet d'un infirmier \n"
+					+ "13) Annuler un rendez-vous \n"
+					+ "14) Quitter \n ");
 
-				// Saisie de clavier de l'administrateur. Nous devons vérifier que l'administrateur entre un chiffre valide.
+				/* Saisie de clavier de l'administrateur. 
+				Nous devons vérifier que l'administrateur entre un 
+				chiffre valide. */
 				if(clavier.hasNextInt()) {
 					choix = clavier.nextInt();
 				}
 				else {
 					
-					/* S'il est impossible d'interpréter l'entrée de l'administrateur en integer, nous devons consommer 
-					 * la prochaine ligne du Scanner pour empêcher la boucle infinie. */
+					/* S'il est impossible d'interpréter l'entrée de 
+					 * l'administrateur en integer, nous devons consommer 
+					 * la prochaine ligne du Scanner pour empêcher 
+					 * la boucle infinie. */
 					clavier.nextLine();
 					choix = 0;
 				}
 				
-				/* Si l'entrée de l'utilisateur était invalide (pas un nombre) ou que le nombre inscrit 
-				 * n'est pas entre 1 et 14, avertir l'administrateur de son erreur. */
+				/* Si l'entrée de l'utilisateur était invalide 
+				 * (pas un nombre) ou que le nombre inscrit n'est pas entre
+				 *  1 et 14, avertir l'administrateur de son erreur. */
 				if(choix < 1 || choix > 14) {
-					System.out.println("Erreur : Veuillez saisir un nombre correspondant aux options numérotées. Retour au menu principal.");
+					System.out.println("Erreur : Veuillez saisir un nombre "
+							+ "correspondant aux options numérotées. "
+							+ "Retour au menu principal.");
 				}
 				
-				/*Ce code fait un appel de méthode selon le choix de fonctionnalité de l'administrateur.*/
+				/*Ce code fait un appel de méthode selon le choix de 
+				 * fonctionnalité de l'administrateur.*/
 				switch (choix){
 
 				case 1:
@@ -141,17 +150,19 @@ public class Main {
 	 */
 	public static void ajouterDocteur() {
 
-		Identification identification = creerIdentification(clavier, "du docteur.");
+		Identification identification = creerIdentification(clavier, 
+				"du docteur.");
 		enuDepartements departement = null;
 
 		while(departement == null) {
 
-			System.out.println("Pour quel département ce docteur travaille-t-il "
-					+ "? " + Arrays.toString(getTableauNomsDeDepartements()));
+			System.out.println("Pour quel département ce docteur travaille-t-il"
+					+ " ? " + Arrays.toString(getTableauNomsDeDepartements()));
 
 			/* Nous séparons la ligne écrite par l'utilisateur par espaces et 
 			 * prenons le premier mot que nous mettons en majuscule. */
-			String nomDepartement =  clavier.nextLine().split(" ")[0].toUpperCase();
+			String nomDepartement =  clavier.nextLine()
+					.split(" ")[0].toUpperCase();
 
 			try {
 				/* Nous essayons de récupérér un département depuis le 
@@ -175,7 +186,8 @@ public class Main {
 	 */
 	public static void ajouterInfirmier() {
 
-		Identification identification = creerIdentification(clavier, "de l'infirmier.");
+		Identification identification = creerIdentification(clavier, 
+				"de l'infirmier.");
 		Infirmier infirmier = new Infirmier(identification,true);
 
 		clinique.ajouterInfirmier(infirmier);
@@ -294,7 +306,7 @@ public class Main {
 
 	/**
 	 * Récupère tous les noms de départements possibles
-	 * @return Tableau contenant les noms de départements possibles en majuscule.
+	 * @return Tableau contenant les noms de départements en majuscule.
 	 */
 	private static String[] getTableauNomsDeDepartements() {
 
@@ -302,7 +314,8 @@ public class Main {
 		String[] nomsDepartements = new String[nbDepartements];
 
 		for(int i =0; i < nbDepartements; i ++) {
-			nomsDepartements[i] = enuDepartements.values()[i].name().toUpperCase();
+			nomsDepartements[i] = enuDepartements.values()[i]
+					.name().toUpperCase();
 		}
 		return nomsDepartements;
 	}
@@ -314,7 +327,8 @@ public class Main {
 	 * type d'intervenant il est en train de créer
 	 * @return
 	 */
-	private static Identification creerIdentification(Scanner clavier, String suffixeIntervenant) {
+	private static Identification creerIdentification(Scanner clavier, 
+			String suffixeIntervenant) {
 
 		String messageUtilisateurIdentification = "Veuillez entrer le nom et "
 				+ "prénom " + suffixeIntervenant;
@@ -439,7 +453,7 @@ public class Main {
 
 	/**
 	 * Recherche un infirmier en comparant l'identification entrée par 
-	 * l'utilisateur avec l'identification de tous les infirmiers de la clinique.
+	 * l'utilisateur avec les identifications des infirmiers de la clinique.
 	 * @return Infirmier correspondant à l'identification entrée, null 
 	 * si aucun infirmier retrouvé.
 	 */
@@ -462,7 +476,8 @@ public class Main {
 	
 	/**
 	 * Créé une date à partir de l'entrée au clavier de l'administrateur.
-	 * @return Date formée par l'entrée de l'administrateur, null si impossible de convertir en date valide.
+	 * @return Date formée par l'entrée de l'administrateur, null si impossible
+	 * de convertir en date valide.
 	 */
 	private static Date choisirDate() {
 		
@@ -470,43 +485,53 @@ public class Main {
 		String[] tabDate = ligne.split("-");
 		
 		if(tabDate.length != 3) {
-			System.out.println("Erreur : Veuillez entrer la date sous le format suivant : AAAA-mm-JJ");
+			System.out.println("Erreur : Veuillez entrer la date sous le format"
+					+ " suivant : AAAA-mm-JJ");
 			return null;
 		}
 		
 		try {
 			
-			/* Nous essayons de construir une date avec l'entrée de l'administrateur. Si le format
-			 * est bon mais il est impossible de convertir en date valide, en avertir l'administrateur */
-			int année = Integer.parseInt(tabDate[0]); 
-			int mois = Integer.parseInt(tabDate[1]) - 1; // Nous faisons -1 car l'intervalle est de 0-11 
+			/* Nous essayons de construir une date avec l'entrée de 
+			 * l'administrateur. Si le format est bon mais il est impossible de
+			 *  convertir en date valide, en avertir l'administrateur */
+			int année = Integer.parseInt(tabDate[0]);
+			
+			// Nous devons faire -1 car l'intervalle est de 0-11 
+			int mois = Integer.parseInt(tabDate[1]) - 1;
 			int jour = Integer.parseInt(tabDate[2]);
 			
 			Calendar calendrier = Calendar.getInstance();
 			Date dateAjd = calendrier.getTime();
-			calendrier.setLenient(false); // Nécéssaire pour valider les dates (ex: les mois sans 31)
+			
+			// Ligne nécéssaire pour valider les dates (ex: les mois sans 31)
+			calendrier.setLenient(false); 
 			
 			calendrier.set(année, mois, jour);
 			Date dateRdv = calendrier.getTime();
 			
-			/* Il faut empêcher l'administrateur de créer un rdv dans le passé. */
+			// Il faut empêcher l'administrateur de créer un rdv dans le passé.
 			if(dateRdv.before(dateAjd)) {
-				System.out.println("Erreur : Impossible de créer un rendez-vous dans le passé.");
+				System.out.println("Erreur : Impossible de créer un rendez-vous"
+						+ " dans le passé.");
 				return null;
 			}
 			
 			return dateRdv;
 			
 		} catch(Exception e) {
-			System.out.println("Erreur : Impossible de convertir en date valide.");
+			System.out.println("Erreur : Impossible de convertir "
+					+ "en date valide.");
 			return null;
 		}
 	}
 	
 	/**
-	 * Définie l'heure pour une date passée en paramètre selon l'entrée saisie par l'administrateur.
+	 * Définie l'heure pour une date passée en paramètre selon l'entrée saisie 
+	 * par l'administrateur.
 	 * @param date Date où l'on veut choisir l'heure.
-	 * @return Vrai si une heure valide a put être affectée à la date, faux sinon.
+	 * @return Vrai si une heure valide a put être affectée à la date, 
+	 * faux sinon.
 	 */
 	@SuppressWarnings("deprecation")
 	private static boolean choisirHeure(Date date) {
@@ -515,7 +540,8 @@ public class Main {
 		String[] tabHeure = ligne.split(":");
 		
 		if(tabHeure.length != 2) {
-			System.out.println("Erreur : Veuillez entrer l'heure sout le format suivant : HH:mm");
+			System.out.println("Erreur : Veuillez entrer l'heure sous le "
+					+ "format suivant : HH:mm");
 			return false;
 		}
 		
@@ -532,7 +558,8 @@ public class Main {
 			date.setMinutes(minutes);
 			
 		} catch(Exception e) {
-			System.out.println("Erreur : Impossible de convertir en heure valide.");
+			System.out.println("Erreur : Impossible de convertir en "
+					+ "heure valide.");
 			return false;
 		}
 		return true;
