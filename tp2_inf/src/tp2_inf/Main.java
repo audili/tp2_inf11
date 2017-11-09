@@ -3,6 +3,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 import javax.swing.InputMap;
@@ -54,20 +55,20 @@ public class Main {
 				// Affichage du menu principal
 				System.out.println
 				("Bienvenue à la clinique, que voulez-vous faire ?\n"
-					+ "1) Ajouter un docteur \n"
-					+ "2) Ajouter un infirmier \n"
-					+ "3) Ajouter un patient \n"
-					+ "4) Ajouter un rendez-vous \n"
-					+ "5) Trouver un rendez-vous pour un patient \n"
-					+ "6) Afficher le prochain rendez-vous d'un docteur \n"
-					+ "7) Afficher le prochain rendez-vous d'un infirmier \n"
-					+ "8) Afficher le prochain rendez-vous d'un patient \n"
-					+ "9) Passer à la prochaine plage horaire \n"
-					+ "10) Afficher le calendrier complet \n"
-					+ "11) Afficher le calendrier complet d'un docteur \n"
-					+ "12) Afficher le calendrier complet d'un infirmier \n"
-					+ "13) Annuler un rendez-vous \n"
-					+ "14) Quitter \n ");
+						+ "1) Ajouter un docteur \n"
+						+ "2) Ajouter un infirmier \n"
+						+ "3) Ajouter un patient \n"
+						+ "4) Ajouter un rendez-vous \n"
+						+ "5) Trouver un rendez-vous pour un patient \n"
+						+ "6) Afficher le prochain rendez-vous d'un docteur \n"
+						+ "7) Afficher le prochain rendez-vous d'un infirmier \n"
+						+ "8) Afficher le prochain rendez-vous d'un patient \n"
+						+ "9) Passer à la prochaine plage horaire \n"
+						+ "10) Afficher le calendrier complet \n"
+						+ "11) Afficher le calendrier complet d'un docteur \n"
+						+ "12) Afficher le calendrier complet d'un infirmier \n"
+						+ "13) Annuler un rendez-vous \n"
+						+ "14) Quitter \n ");
 
 				/* Saisie de clavier de l'administrateur. 
 				Nous devons vérifier que l'administrateur entre un 
@@ -76,7 +77,7 @@ public class Main {
 					choix = clavier.nextInt();
 				}
 				else {
-					
+
 					/* S'il est impossible d'interpréter l'entrée de 
 					 * l'administrateur en integer, nous devons consommer 
 					 * la prochaine ligne du Scanner pour empêcher 
@@ -84,7 +85,7 @@ public class Main {
 					clavier.nextLine();
 					choix = 0;
 				}
-				
+
 				/* Si l'entrée de l'utilisateur était invalide 
 				 * (pas un nombre) ou que le nombre inscrit n'est pas entre
 				 *  1 et 14, avertir l'administrateur de son erreur. */
@@ -93,7 +94,7 @@ public class Main {
 							+ "correspondant aux options numérotées. "
 							+ "Retour au menu principal.");
 				}
-				
+
 				/*Ce code fait un appel de méthode selon le choix de 
 				 * fonctionnalité de l'administrateur.*/
 				switch (choix){
@@ -115,7 +116,8 @@ public class Main {
 					break;
 
 				case 5:
-
+					trouverRendezVous();
+					break;
 
 				case 6:
 
@@ -146,7 +148,7 @@ public class Main {
 
 	/**
 	 * Ajoute un docteur dans la clinique depuis les données saisies par 
-	 * l'utilisateur.
+	 * l'administrateur
 	 */
 	public static void ajouterDocteur() {
 
@@ -182,7 +184,7 @@ public class Main {
 
 	/**
 	 * Ajoute un infirmier dans la clinique depuis les données saisies par 
-	 * l'utilisateur.
+	 * l'administrateur
 	 */
 	public static void ajouterInfirmier() {
 
@@ -196,7 +198,7 @@ public class Main {
 
 	/**
 	 * Ajoute un patient dans la clinique depuis les données saisies par 
-	 * l'utilisateur
+	 * l'administrateur
 	 */
 	public static void ajouterPatient() {
 
@@ -216,8 +218,8 @@ public class Main {
 	}
 
 	/**
-	 * Créé un rendez-vous en demandant à l'utilisateur de choisir un docteur, 
-	 * un infirmier et un patient.
+	 * Créé un rendez-vous en demandant à l'administrateur de choisir un docteur, 
+	 * un infirmier, un patient et une PlageHoraire.
 	 */
 	public static void ajouterRendezVous() {
 
@@ -228,7 +230,7 @@ public class Main {
 		System.out.println("Pour créer un rendez-vous, il vous faut choisir "
 				+ "un docteur, un infirmier disponible, "
 				+ "un patient, une date et une heure.");
-		
+
 		System.out.println("");
 
 		System.out.println("1) Choisisez un docteur.");
@@ -254,14 +256,14 @@ public class Main {
 
 		System.out.println("4) Choisisez la date du rendez-vous (AAAA-mm-jj).");
 		Date dateRdv = null;
-		
+
 		while(dateRdv == null) {
 			dateRdv = choisirDate();
 		}
-		
+
 		System.out.println("5) Choisisez l'heure du rendez-vous (HH:mm).");
 		boolean heureEstValide = false;
-		
+
 		while(!heureEstValide) {
 			heureEstValide = choisirHeure(dateRdv);
 		}
@@ -270,36 +272,65 @@ public class Main {
 				infirmierChoisi);	
 		PlageHoraire plageHoraire = new PlageHoraire(dateRdv);		
 		clinique.getCalendrier().ajouterRendezvous(plageHoraire, rendezVous);
-		
+
 		System.out.println(rendezVous + " créé.");
 	}
-	
+
 	/**
-	 * Trouve un rendez-vous 
+	 * Créé un rendez-vous pour un patient choisi par l'administrateur. Il
+	 * doit aussi choisir une PlageHoraire pour le rendez-vous. Nous informons
+	 * l'administrateur si le patient a déjà un rendez-vous ou si il n'y a pas
+	 * de personnel disponible pour cette PlageHoraire.
 	 */
-	public void trouverRendezVous() {
-		
-		Patient patientChoisi= null;
-		
+	public static void trouverRendezVous() {
+
+		if(!peuxCreerRendezVous()) {
+			return;
+		}
+
+		Patient patientChoisi = null;
+
 		while(patientChoisi == null) {
 			patientChoisi = choisirPatient();
 		}
-		
+
 		System.out.println("Choisisez la date du rendez-vous (AAAA-mm-jj).");
 		Date dateRdv = null;
-		
+
 		while(dateRdv == null) {
 			dateRdv = choisirDate();
 		}
-		
+
 		System.out.println("Choisisez l'heure du rendez-vous (HH:mm).");
 		boolean heureEstValide = false;
-		
+
 		while(!heureEstValide) {
 			heureEstValide = choisirHeure(dateRdv);
 		}
+
+		PlageHoraire plageHoraire = new PlageHoraire(dateRdv);
+		RendezVous rdv = clinique.getCalendrier().
+				obtenirProchainRendezVousPatient(patientChoisi, plageHoraire);
+
+		/* Si le client a déjà un rendez-vous pour cette plage horaire, 
+		 * retour au menu principal */
+		if(rdv != null) {
+			System.out.println("Erreur : Impossible de créer le rendez-vous car"
+					+ patientChoisi + " a déjà un rendez-vous le "
+					+ plageHoraire);
+		}
+
+		/* Si le patient n'en a pas, en créer un en trouvant un docteur et
+		 * un infirmier disponible. */
+		Docteur docteurChoisi = obtenirDocteurDisponible(plageHoraire);
+		Infirmier infirmierChois = obtenirInfirmierDisponible(plageHoraire);
 		
-		
+		if(docteurChoisi != null && infirmierChois != null) {
+			
+			rdv = new RendezVous(patientChoisi, docteurChoisi, infirmierChois);
+			clinique.getCalendrier().ajouterRendezvous(plageHoraire, rdv);
+			System.out.println(rdv + " créé.");
+		}
 	}
 
 	/* ---------------------Méthodes privées-------------------------------- */
@@ -473,59 +504,59 @@ public class Main {
 
 		return patientChoisi;
 	}
-	
+
 	/**
 	 * Créé une date à partir de l'entrée au clavier de l'administrateur.
 	 * @return Date formée par l'entrée de l'administrateur, null si impossible
 	 * de convertir en date valide.
 	 */
 	private static Date choisirDate() {
-		
+
 		String ligne = clavier.nextLine();
 		String[] tabDate = ligne.split("-");
-		
+
 		if(tabDate.length != 3) {
 			System.out.println("Erreur : Veuillez entrer la date sous le format"
 					+ " suivant : AAAA-mm-JJ");
 			return null;
 		}
-		
+
 		try {
-			
+
 			/* Nous essayons de construir une date avec l'entrée de 
 			 * l'administrateur. Si le format est bon mais il est impossible de
 			 *  convertir en date valide, en avertir l'administrateur */
 			int année = Integer.parseInt(tabDate[0]);
-			
+
 			// Nous devons faire -1 car l'intervalle est de 0-11 
 			int mois = Integer.parseInt(tabDate[1]) - 1;
 			int jour = Integer.parseInt(tabDate[2]);
-			
+
 			Calendar calendrier = Calendar.getInstance();
 			Date dateAjd = calendrier.getTime();
-			
+
 			// Ligne nécéssaire pour valider les dates (ex: les mois sans 31)
 			calendrier.setLenient(false); 
-			
+
 			calendrier.set(année, mois, jour);
 			Date dateRdv = calendrier.getTime();
-			
+
 			// Il faut empêcher l'administrateur de créer un rdv dans le passé.
 			if(dateRdv.before(dateAjd)) {
 				System.out.println("Erreur : Impossible de créer un rendez-vous"
 						+ " dans le passé.");
 				return null;
 			}
-			
+
 			return dateRdv;
-			
+
 		} catch(Exception e) {
 			System.out.println("Erreur : Impossible de convertir "
 					+ "en date valide.");
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Définie l'heure pour une date passée en paramètre selon l'entrée saisie 
 	 * par l'administrateur.
@@ -535,33 +566,95 @@ public class Main {
 	 */
 	@SuppressWarnings("deprecation")
 	private static boolean choisirHeure(Date date) {
-		
+
 		String ligne = clavier.nextLine();
 		String[] tabHeure = ligne.split(":");
-		
+
 		if(tabHeure.length != 2) {
 			System.out.println("Erreur : Veuillez entrer l'heure sous le "
 					+ "format suivant : HH:mm");
 			return false;
 		}
-		
+
 		try {
-			
+
 			int heure = Integer.parseInt(tabHeure[0]);
 			int minutes = Integer.parseInt(tabHeure[1]);
-			
+
 			if(heure < 0 || heure > 23 || minutes < 0 || minutes > 59) {
 				throw new Exception();
 			}
-			
+
 			date.setHours(heure);
 			date.setMinutes(minutes);
-			
+
 		} catch(Exception e) {
 			System.out.println("Erreur : Impossible de convertir en "
 					+ "heure valide.");
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Obtient le premier docteur disponible pendant la PlageHoraire.
+	 * @param plageHoraire PlageHoraire à vérifier
+	 * @return Premier Docteur disponible, null si aucun docteur disponible.
+	 */
+	private static Docteur obtenirDocteurDisponible(PlageHoraire plageHoraire) {
+
+		LinkedList<Docteur> docteursDisponibles = 
+				clinique.getListeDocteur();
+
+		if(plageHoraire.getRendezVous().isEmpty()) {
+
+			return docteursDisponibles.getFirst();
+		}
+		else {
+
+			for (RendezVous rendezVous : plageHoraire.getRendezVous()) {
+				docteursDisponibles.remove(rendezVous.getDocteur());
+			}
+
+			if(docteursDisponibles.isEmpty()) {
+				System.out.println("Erreur : Aucun docteur n'est disponible"
+						+ " pour le " + plageHoraire);
+				return null;
+			}
+			else {
+				return docteursDisponibles.getFirst();
+			}
+		}
+	}
+
+	/**
+	 * Obtient le premier Infirmier disponible pendant la PlageHoraire.
+	 * @param plageHoraire PlageHoraire à vérifier
+	 * @return Premier Infirmier disponible, null si aucun infirmier disponible.
+	 */
+	private static Infirmier obtenirInfirmierDisponible(PlageHoraire 
+			plageHoraire) {
+
+		LinkedList<Infirmier> infirmiersDisponibles = 
+				clinique.getListeInfirmiers();
+
+		if(plageHoraire.getRendezVous().isEmpty()) {
+
+			return infirmiersDisponibles.getFirst();
+		}
+		else {
+			for (Infirmier infirmier : infirmiersDisponibles) {
+				infirmiersDisponibles.remove(infirmier);
+			}
+			
+			if(infirmiersDisponibles.isEmpty()) {
+				System.out.println("Erreur : Aucun infirmier n'est disponible "
+						+ "pour le " + plageHoraire);
+				return null;
+			}
+			else {
+				return infirmiersDisponibles.getFirst();
+			}
+		}
 	}
 }

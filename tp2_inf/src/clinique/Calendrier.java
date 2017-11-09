@@ -80,7 +80,7 @@ public class Calendrier implements Serializable {
 	 * @param plageHoraire
 	 * @return
 	 */
-	public RendezVous obtenirProchainRendezVousPatient (Patient patient ,PlageHoraire plageHoraire ){
+	public RendezVous obtenirProchainRendezVousPatient (Patient patient, PlageHoraire plageHoraire ){
 
 		for (int i =0; i < plageHoraire.getRendezVous().size(); i++) {			
 			if (plageHoraire.getRendezVous().get(i).getPatient() == patient ) {
@@ -132,7 +132,7 @@ public class Calendrier implements Serializable {
 		return null ; 
 	}
 /**
- * Obtenir la prochaine plage horaire qui est dans la file  filePlageHoraire
+ * Obtenir la prochaine plage horaire qui est dans la file filePlageHoraire
  * @param plageHoraire
  * @return
  */
