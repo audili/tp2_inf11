@@ -185,6 +185,7 @@ public class Calendrier implements Serializable {
 		 	   }
 			return calendrier;
 		   }
+	  /*modification ici */
 	  
 	  public Calendrier obtenirCalendrierDocteur(Docteur docteur) {
 		  	   
