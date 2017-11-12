@@ -2,6 +2,9 @@ package intervenants;
 
 import java.io.Serializable;
 
+import clinique.PlageHoraire;
+import clinique.RendezVous;
+
 /**
  * 
  * @author Auteurs: Alec Durocher, Ali Joudad et Ayoub Moudrika
@@ -14,7 +17,6 @@ import java.io.Serializable;
 public class Infirmier implements Serializable {
 
 	private Identification identifiant = new Identification();
-	private boolean estDisponible;
 
 	/**
 	 * Créé un Infirmier avec des valeurs d'Identification et de 
@@ -22,7 +24,6 @@ public class Infirmier implements Serializable {
 	 */
 	public Infirmier(){
 		identifiant = new Identification();
-		estDisponible = true;
 	}
 
 	/**
@@ -31,7 +32,6 @@ public class Infirmier implements Serializable {
 	 */
 	public Infirmier(Infirmier infirmier) {
 		identifiant = infirmier.getIdentification();
-		estDisponible = infirmier.getDisponibilite();
 	}
 
 	/**
@@ -41,7 +41,6 @@ public class Infirmier implements Serializable {
 	 */
 	public Infirmier(Identification identifiant, boolean disponibilite) {
 		this.identifiant = identifiant;
-		this.estDisponible = disponibilite;
 	}
 
 
@@ -66,23 +65,19 @@ public class Infirmier implements Serializable {
 	}
 
 	/**
-	 *  Accesseur de la disponibilité d'un infirmier. 
-	 * @return
+	 * Obtient la disponibilité d'un infirmier pour une PlageHoraire
+	 * @param plageHoraire PlageHoraire à vérifier
+	 * @return Vrai si l'infirmier n'a pas de rendez-vous pendant cette 
+	 * PlageHoraire, faux sinon.
 	 */
-	public boolean getDisponibilite() {
+	public boolean getDisponibilite(PlageHoraire plageHoraire) {
 
-		return estDisponible;
-	}
-
-	/**
-	 * Mutateur de la disponibilité d'un infirmier.
-	 * @param estDisponible
-	 */
-
-	public void setDisponibilite(boolean estDisponible) {
-
-		this.estDisponible = estDisponible;
-
+		for (RendezVous rendezVous : plageHoraire.getRendezVous()) {
+			if(rendezVous.getInfirmier().equals(this)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -91,8 +86,7 @@ public class Infirmier implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		String disponibilité = estDisponible ? "disponible" : "indisponible";
-		return identifiant + ", Disponibilité : " + disponibilité;
+		return "Infirmier " + identifiant;
 	}
 
 	/**
@@ -119,9 +113,6 @@ public class Infirmier implements Serializable {
 			return false;
 
 		Infirmier other = (Infirmier) obj;
-
-		if (estDisponible != other.estDisponible)
-			return false;
 
 		if (identifiant == null) {
 			if (other.identifiant != null)
