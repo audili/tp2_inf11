@@ -54,32 +54,35 @@ public class Calendrier implements Serializable {
 	 * 
 	 * @param plageHoraire
 	 * @param rendezvous
-	 * @return
 	 */
 
-	public boolean  ajouterRendezvous(Date date, RendezVous rendezVous) {
-
+	public void  ajouterRendezvous(Date date, RendezVous rendezVous) {
+		
 		if(getFilePlageHoraire().estVide()) {
 			
 			PlageHoraire plageHoraire = new PlageHoraire(date);
 			plageHoraire.addRendezVous(rendezVous);
 			
 			getFilePlageHoraire().setTete(new Maillon(plageHoraire));
-			return true;
 		}
 		
 		PlageHoraire plageHoraire = getPlageHoraire(date);						
 		boolean plageHoraireExiste = plageHoraire != null;
 		
-		if(plageHoraireExiste) {
-			plageHoraire.addRendezVous(rendezVous);
-		}
-		else {
-			plageHoraire.addRendezVous(rendezVous);
-			getFilePlageHoraire().enFile(plageHoraire);
+		if(!plageHoraireExiste) {
+			plageHoraire = new PlageHoraire(date);
 		}
 		
-		return true;
+		if(!rendezVous.getInfirmier().getDisponibilite(plageHoraire)) {
+			
+			System.out.println("Erreur : " + rendezVous.getInfirmier() + 
+					" pour " + plageHoraire);
+		}
+		
+		plageHoraire.addRendezVous(rendezVous);
+		getFilePlageHoraire().enFile(plageHoraire);
+		
+		System.out.println(rendezVous + " créé.");
 	}
 
 	/**
@@ -230,13 +233,20 @@ public class Calendrier implements Serializable {
 
 
 
+	@SuppressWarnings("deprecation")
 	private PlageHoraire getPlageHoraire(Date date){
 
 		Maillon maillon = getFilePlageHoraire().getTete();
 
 		while (maillon != null) {
 
-			if(maillon.getPlageHoraire().getDate().equals(date)) {
+			Date dateMaillon = maillon.getPlageHoraire().getDate();
+			if(dateMaillon.getDay() == date.getDay() && 
+					dateMaillon.getYear() == date.getYear() &&
+					dateMaillon.getMonth() == date.getMonth() &&
+					dateMaillon.getHours() == date.getHours() &&
+					dateMaillon.getMinutes() == date.getMinutes()) {
+				
 				return maillon.getPlageHoraire();
 			}
 

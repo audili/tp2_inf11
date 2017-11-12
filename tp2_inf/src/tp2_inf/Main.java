@@ -274,8 +274,6 @@ public class Main {
 				infirmierChoisi);
 		
 		clinique.getCalendrier().ajouterRendezvous(dateRdv, rendezVous);
-
-		System.out.println(rendezVous + " créé.");
 	}
 
 	/**
@@ -358,8 +356,9 @@ public class Main {
 		
 		String ligne = clavier.nextLine().toLowerCase();
 		while(!ligne.equals("oui") || !ligne.equals("non")) {
-			ligne = clavier.nextLine().toLowerCase();
+			ligne = clavier.next().toLowerCase();
 		}
+		
 		if(ligne.equals("Oui")) {
 			UtilitaireFichier.sauvegardeClinique(clinique);
 			System.exit(0);
