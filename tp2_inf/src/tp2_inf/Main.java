@@ -334,17 +334,20 @@ public class Main {
 	}
 	
 	public static void afficherProchainRDVDocteur() {
-		
+
 		Docteur docteur = choisirDocteur();
 		
-		Calendrier calendrierDr = clinique.getCalendrier()
+		Calendrier calendrierDocteur = clinique.getCalendrier()
 				.obtenirCalendrierDocteur(docteur);
 		
-		System.out.println(calendrierDr);
+		PlageHoraire plageHoraire = clinique.getCalendrier().getFilePlageHoraire
+				().getTete().getPlageHoraire(); 
+		
+		RendezVous rdv = calendrierDocteur.obtenirProchainRendezVousDocteur
+				(docteur,plageHoraire);
+		rdv.toString();
+
 	}
-	
-	
-	
 	
 	/**
 	 * Quitte l'application en demandant
