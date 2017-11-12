@@ -120,6 +120,8 @@ public class Main {
 					break;
 
 				case 6:
+					afficherProchainRDVDocteur();
+					break;
 
 				case 7:
 
@@ -240,7 +242,7 @@ public class Main {
 			docteurChoisi = choisirDocteur();
 		}
 
-		System.out.println("2) Choisisez un infirmier disponible.");
+		System.out.println("2) Choisisez un infirmier.");
 		Infirmier infirmierChoisi = null;
 
 		while(infirmierChoisi == null) {
@@ -267,11 +269,11 @@ public class Main {
 		while(!heureEstValide) {
 			heureEstValide = choisirHeure(dateRdv);
 		}
-
+		
 		RendezVous rendezVous = new RendezVous(patientChoisi, docteurChoisi, 
-				infirmierChoisi);	
-		PlageHoraire plageHoraire = new PlageHoraire(dateRdv);		
-		clinique.getCalendrier().ajouterRendezvous(plageHoraire, rendezVous);
+				infirmierChoisi);
+		
+		clinique.getCalendrier().ajouterRendezvous(dateRdv, rendezVous);
 
 		System.out.println(rendezVous + " créé.");
 	}
@@ -328,8 +330,43 @@ public class Main {
 		if(docteurChoisi != null && infirmierChois != null) {
 			
 			rdv = new RendezVous(patientChoisi, docteurChoisi, infirmierChois);
-			clinique.getCalendrier().ajouterRendezvous(plageHoraire, rdv);
+			clinique.getCalendrier().ajouterRendezvous(dateRdv, rdv);
 			System.out.println(rdv + " créé.");
+		}
+	}
+	
+	public static void afficherProchainRDVDocteur() {
+		
+		Docteur docteur = choisirDocteur();
+		
+		Calendrier calendrierDr = clinique.getCalendrier()
+				.obtenirCalendrierDocteur(docteur);
+		
+		System.out.println(calendrierDr);
+	}
+	
+	
+	
+	
+	/**
+	 * Quitte l'application en demandant
+	 */
+	public static void quitter() {
+		
+		System.out.println("Êtes-vous sûr de vouloir quitter ?");
+		System.out.println("Oui/Non");
+		
+		String ligne = clavier.nextLine().toLowerCase();
+		while(!ligne.equals("oui") || !ligne.equals("non")) {
+			ligne = clavier.nextLine().toLowerCase();
+		}
+		if(ligne.equals("Oui")) {
+			UtilitaireFichier.sauvegardeClinique(clinique);
+			System.exit(0);
+		}
+		
+		if(ligne.equals("Non")) {
+			return;
 		}
 	}
 
@@ -593,7 +630,8 @@ public class Main {
 					+ "heure valide.");
 			return false;
 		}
-		return true;
+		
+		return heureEstValide(date);
 	}
 
 	/**
@@ -656,5 +694,20 @@ public class Main {
 				return infirmiersDisponibles.getFirst();
 			}
 		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	private static boolean heureEstValide(Date date) {
+		
+		int minutes = date.getMinutes() ; 
+		if ((date.getHours() > 8 && date.getHours() < 20) && 
+				(minutes == 0 || minutes == 15 || minutes == 30 
+				|| minutes == 45) ){
+			return true;
+		}
+		
+		System.out.println("Erreur : L'heure doit être comprise entre 8h00 "
+				+ "et 20h00, sur des intervalles de 15 minutes.");
+		return false ;
 	}
 }

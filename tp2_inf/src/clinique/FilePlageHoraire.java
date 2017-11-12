@@ -7,13 +7,6 @@ public class FilePlageHoraire  implements Serializable {
 
 	private Maillon tete ; 
 
-
-	public FilePlageHoraire (PlageHoraire plageHoraire) {
-
-		this.tete = new Maillon(plageHoraire) ; 
-
-	}
-
 	@Override
 	public String toString() {
 		return "FilePlageHoraire tete=" + tete + ")";
