@@ -131,16 +131,22 @@ public class Calendrier implements Serializable {
 	 */
 
 	public RendezVous obtenirProchainRendezVousDocteur(Docteur  docteur , PlageHoraire plageHoraire) {
-		for (int i=0; i < plageHoraire.getRendezVous().size() ; i++  ) {
-
-			if (plageHoraire.getRendezVous().get(i).getDocteur() == docteur ) {
-
-				getFilePlageHoraire().defile() ; 
+		
+		Calendrier calendrierDr = obtenirCalendrierDocteur(docteur);
+		
+		Maillon maillon = calendrierDr.getFilePlageHoraire().getTete();
+		while (maillon != null) {
+			
+			if(maillon.getPlageHoraire().getDate().before(plageHoraire.getDate())) {
+				maillon = maillon.getProchain();
 			}
-			return getFilePlageHoraire().getTete().getPlageHoraire().getRendezVous().get(i);
+			else {
+				return maillon.getPlageHoraire().getRendezVous().get(0);
+			}
 		}
-
-		return null ; 
+		
+		return null;
+		
 	}
 	/**
 	 * Obtenir la prochaine plage horaire qui est dans la file filePlageHoraire
