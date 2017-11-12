@@ -171,7 +171,7 @@ public class Calendrier implements Serializable {
 		return false ;
 	}
 	
-	  public void obtenirCalendrierInfirmier(Infirmier infirmier) {
+	  public Calendrier obtenirCalendrierInfirmier(Infirmier infirmier) {
 		 	   
 		 	   Calendrier calendrier = new Calendrier();
 		 	   for (int i=0; i <getPlageHoraire().getTete().getPlageHoraire().getRendezVous().size() ; i++  ) {
@@ -183,9 +183,10 @@ public class Calendrier implements Serializable {
 		 			
 		 			
 		 	   }
+			return calendrier;
 		   }
 	  
-	  public void obtenirCalendrierDocteur(Docteur docteur) {
+	  public Calendrier obtenirCalendrierDocteur(Docteur docteur) {
 		  	   
 		  	   Calendrier calendrier = new Calendrier();
 		  	   for (int i=0; i <this.getPlageHoraire().getTete().getPlageHoraire().getRendezVous().size() ; i++  ) {
@@ -195,6 +196,7 @@ public class Calendrier implements Serializable {
 		  				calendrier.ajouterRendezvous(getPlageHoraire().getTete().getPlageHoraire(), this.getPlageHoraire().getTete().getPlageHoraire().getRendezVous().get(i));
 		  			}
 		  	   }
+		  		return calendrier;
 		     }
 
 

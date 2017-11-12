@@ -14,6 +14,11 @@ public class FilePlageHoraire  implements Serializable {
 
 	}
 
+	@Override
+	public String toString() {
+		return "FilePlageHoraire tete=" + tete + ")";
+	}
+
 	public boolean estVide() {
 
 		return this.tete == null ; 
