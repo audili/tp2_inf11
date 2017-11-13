@@ -132,7 +132,10 @@ public class Main {
 					break;
 
 				case 9:
-
+					System.out.println(afficherRdvProchainePlageHoraire
+						(clinique.
+						getCalendrier()));
+					break;
 				case 10:
 					System.out.println(afficherCalendrierComplet
 							(clinique.getCalendrier() ));
@@ -187,7 +190,7 @@ public class Main {
 		System.out.println(rdv);
 
 	}
-	
+
 	public static void afficherProchainRDVPatient() {
 
 		Patient patient = choisirPatient();
@@ -210,8 +213,8 @@ public class Main {
 		System.out.println(rdv);
 
 	}
-	
-	
+
+
 
 
 
@@ -399,7 +402,9 @@ public class Main {
 			System.out.println(rdv + " créé.");
 		}
 	}
-
+	/**
+	 * 
+	 */
 	public static void afficherProchainRDVDocteur() {
 
 		Docteur docteur = choisirDocteur();
@@ -442,6 +447,30 @@ public class Main {
 				return;
 			}
 		}
+	}
+	/**
+	 * 
+	 * @param calendrier
+	 * @return
+	 */
+	public static String afficherRdvProchainePlageHoraire(Calendrier calendrier){
+		Maillon maillon = calendrier.getFilePlageHoraire().getTete().
+				getProchain();
+		String rdv = null;
+		if (calendrier.getFilePlageHoraire().getTete().getProchain()!=null){		
+			for(int i=0; i<calendrier.getFilePlageHoraire().getTete().
+					getProchain().getPlageHoraire().getRendezVous().size();i++){
+
+                  
+                      rdv =   maillon.getPlageHoraire().getRendezVous()
+                    .get(i).toString();
+			}
+		}else {
+			rdv= "PlageHoraireInexistante";
+			System.out.println(rdv);
+			
+		}
+		return  rdv; 
 	}
 	/**
 	 * 
@@ -502,7 +531,10 @@ public class Main {
 		return calendrier.toString() ; 
 
 	}
-
+	/**
+	 * 
+	 * @param calendrier
+	 */
 	public static  void annulerRendezvous(Calendrier calendrier){
 
 		RendezVous rdv =null; 
@@ -687,7 +719,7 @@ public class Main {
 				"du patient");
 
 		for (Patient patient : clinique.getListePatient()) {
-			
+
 			if(patient.getIdentification().equals(identification)) {
 				patientChoisi = patient;
 				break;
