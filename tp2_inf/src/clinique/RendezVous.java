@@ -11,7 +11,7 @@ import java.io.Serializable;
  * 
  * @author Auteurs: Alec Durocher, Ali Joudad et Ayoub Moudrika
  * 
- *  Dernière date de modification: 11-05-2017
+ *  Dernière date de modification: 11-12-2017
  * 
  * La classe rendez-vous, prends comme attribut un docteur, infirmier et 
  * patient.
@@ -90,6 +90,9 @@ public class RendezVous implements Serializable {
 		this.infirmier = infirmier;
 	}
 
+	/**
+	 *  Méthode booleanne qui compare deux objets du Rendez-vous.
+	 */
 	
 	@Override
 	public boolean equals(Object obj) {

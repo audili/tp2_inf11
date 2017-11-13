@@ -133,8 +133,8 @@ public class Main {
 
 				case 9:
 					System.out.println(afficherRdvProchainePlageHoraire
-						(clinique.
-						getCalendrier()));
+							(clinique.
+									getCalendrier()));
 					break;
 				case 10:
 					System.out.println(afficherCalendrierComplet
@@ -166,8 +166,34 @@ public class Main {
 		}
 	}
 
+	/**
+	 * Méthode qui affiche le prochain RDV d'un docteur qu'on choisi
+	 */
+	public static void afficherProchainRDVDocteur() {
+
+		Docteur docteur = choisirDocteur();
+
+		Calendrier calendrierDocteur = clinique.getCalendrier()
+				.obtenirCalendrierDocteur(docteur);
+
+		if(calendrierDocteur.getFilePlageHoraire().estVide()) {
+			System.out.println(docteur + " n'a aucun rendez-vous à son horaire."
+					+ "");
+			return;
+		}
+
+		PlageHoraire plageHoraire = new PlageHoraire(new Date());
+
+		RendezVous rdv = calendrierDocteur.obtenirProchainRendezVousDocteur
+				(docteur,plageHoraire);
+
+		System.out.println(rdv);
+	}
 
 
+	/**
+	 * Méthode qui affiche le prochain RDV d'un infirmier qu'on choisi
+	 */
 	public static void afficherProchainRDVInfirmier() {
 
 		Infirmier infirmier = choisirInfirmier();
@@ -191,6 +217,9 @@ public class Main {
 
 	}
 
+	/**
+	 * Méthode qui affiche le prochain RDV d'un patient qu'on choisi
+	 */
 	public static void afficherProchainRDVPatient() {
 
 		Patient patient = choisirPatient();
@@ -213,10 +242,6 @@ public class Main {
 		System.out.println(rdv);
 
 	}
-
-
-
-
 
 	/**
 	 * Ajoute un docteur dans la clinique depuis les données saisies par 
@@ -402,28 +427,7 @@ public class Main {
 			System.out.println(rdv + " créé.");
 		}
 	}
-	/**
-	 * 
-	 */
-	public static void afficherProchainRDVDocteur() {
 
-		Docteur docteur = choisirDocteur();
-
-		Calendrier calendrierDocteur = clinique.getCalendrier()
-				.obtenirCalendrierDocteur(docteur);
-
-		if(calendrierDocteur.getFilePlageHoraire().estVide()) {
-			System.out.println(docteur + " n'a aucun rendez-vous à son horaire.");
-			return;
-		}
-
-		PlageHoraire plageHoraire = new PlageHoraire(new Date());
-
-		RendezVous rdv = calendrierDocteur.obtenirProchainRendezVousDocteur
-				(docteur,plageHoraire);
-
-		System.out.println(rdv);
-	}
 
 	/**
 	 * Quitte l'application et sauvegarde la clinique sous un fichier binaire.
@@ -449,7 +453,7 @@ public class Main {
 		}
 	}
 	/**
-	 * 
+	 *  Affiche le calendrier de la prochaine plage horaire de la clinique.
 	 * @param calendrier
 	 * @return
 	 */
@@ -461,19 +465,19 @@ public class Main {
 			for(int i=0; i<calendrier.getFilePlageHoraire().getTete().
 					getProchain().getPlageHoraire().getRendezVous().size();i++){
 
-                  
-                      rdv =   maillon.getPlageHoraire().getRendezVous()
-                    .get(i).toString();
+
+				rdv =   maillon.getPlageHoraire().getRendezVous()
+						.get(i).toString();
 			}
 		}else {
 			rdv= "PlageHoraireInexistante";
 			System.out.println(rdv);
-			
+
 		}
 		return  rdv; 
 	}
 	/**
-	 * 
+	 *  Affiche tout le calendrier
 	 * @param calendrier
 	 * @return
 	 */
@@ -507,7 +511,7 @@ public class Main {
 		return afficher ;
 	}
 	/**
-	 * 
+	 *  Affiche le calendrier d'un docteur qu'on a choisi
 	 * @param calendrier
 	 * @return
 	 */
@@ -520,7 +524,7 @@ public class Main {
 
 	}
 	/**
-	 * 
+	 *  Affiche le calendrier d'un infirmier qu'on a choisi
 	 * @param calendrier
 	 * @return
 	 */
@@ -531,7 +535,7 @@ public class Main {
 		return calendrier.toString() ; 
 
 	}
-	/**
+	/** Méthode qui annule un RDV qu'on choisi
 	 * 
 	 * @param calendrier
 	 */
@@ -882,7 +886,13 @@ public class Main {
 			}
 		}
 	}
-
+	
+	/**
+	 * Méthode vérificatrice si l'heure entrée est valide (Intervallle 
+	 * de 15 minutes et entre 8h00 et 20h).
+	 * @param date
+	 * @return
+	 */
 	@SuppressWarnings("deprecation")
 	private static boolean heureEstValide(Date date) {
 

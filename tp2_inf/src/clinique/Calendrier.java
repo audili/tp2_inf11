@@ -12,8 +12,10 @@ import intervenants.Patient;
 
 
 /*
- * Auteur : Ali Joudad , Alec Durocher , Ayoub Moudrika 
+ * Auteur : Ali Joudad , Alec Durocher , Ayoub Moudrika
+ * 
  * Dernière modification : 2017-11-07
+ * 
  * Classe calendrier  
  */
 @SuppressWarnings("serial")

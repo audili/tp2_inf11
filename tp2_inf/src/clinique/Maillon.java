@@ -4,6 +4,16 @@ import java.io.Serializable;
 
 @SuppressWarnings("serial")
 public class Maillon implements Serializable {
+	
+	/**
+	 * 
+	 * @author Auteurs: Alec Durocher, Ali Joudad et Ayoub Moudrika
+	 * 
+	 *  Dernière date de modification: 11-12-2017
+	 * 
+	 * La classe maillon crée les maillons de la liste de PlageHoraire.
+	 * 
+	 */
 
 	private Maillon prochain; 
 	private PlageHoraire  plageHoraire;
@@ -14,13 +24,13 @@ public class Maillon implements Serializable {
 
 	public Maillon(PlageHoraire plageHoraire) {
 
-		this.plageHoraire=plageHoraire;
+		this.plageHoraire = plageHoraire;
 
 	}
 
-	/*getters et setters pour le prochain maillon de la file  simple chainée dynamiquement 
-	 * 
-	 * les attributs sont le prochain maillon (prochain) et la valeur du maillon courant (valeur)
+	/* Getters et Setters pour le prochain maillon de la file  simple chainée 
+	 * dynamiquement. Les attributs sont le prochain maillon (prochain) et la 
+	 * valeur du maillon courant (valeur)
 	 * 
 	 * */
 	public Maillon getProchain() {
