@@ -340,13 +340,17 @@ public class Main {
 		Calendrier calendrierDocteur = clinique.getCalendrier()
 				.obtenirCalendrierDocteur(docteur);
 		
-		PlageHoraire plageHoraire = clinique.getCalendrier().getFilePlageHoraire
-				().getTete().getPlageHoraire(); 
+		if(calendrierDocteur.getFilePlageHoraire().estVide()) {
+			System.out.println(docteur + " n'a aucun rendez-vous à son horaire.");
+			return;
+		}
+		
+		PlageHoraire plageHoraire = new PlageHoraire(new Date());
 		
 		RendezVous rdv = calendrierDocteur.obtenirProchainRendezVousDocteur
 				(docteur,plageHoraire);
-		rdv.toString();
 
+		System.out.println(rdv);
 	}
 	
 	/**

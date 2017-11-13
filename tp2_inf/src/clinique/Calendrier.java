@@ -29,6 +29,10 @@ public class Calendrier implements Serializable {
 	 * 
 	 */
 
+	public Calendrier() {
+		setFilePlageHoraire(new FilePlageHoraire());
+	}
+
 	/*================================================================================================================
 	 * ===============================================================================================================
 	 * ===============================================================================================================*/
@@ -41,7 +45,7 @@ public class Calendrier implements Serializable {
 	}
 
 
-	public void setPlageHoraire(FilePlageHoraire plageHoraire) { 
+	public void setFilePlageHoraire(FilePlageHoraire plageHoraire) { 
 		this.filePlageHoraire = plageHoraire;
 	}
 	/*================================================================================================================
@@ -57,31 +61,34 @@ public class Calendrier implements Serializable {
 	 */
 
 	public void  ajouterRendezvous(Date date, RendezVous rendezVous) {
-		
+
 		if(getFilePlageHoraire().estVide()) {
-			
+
 			PlageHoraire plageHoraire = new PlageHoraire(date);
 			plageHoraire.addRendezVous(rendezVous);
-			
+
 			getFilePlageHoraire().setTete(new Maillon(plageHoraire));
+			System.out.println(rendezVous + " créé.");
+			return;
 		}
-		
+
 		PlageHoraire plageHoraire = getPlageHoraire(date);						
 		boolean plageHoraireExiste = plageHoraire != null;
-		
+
 		if(!plageHoraireExiste) {
 			plageHoraire = new PlageHoraire(date);
 		}
-		
+
 		if(!rendezVous.getInfirmier().getDisponibilite(plageHoraire)) {
-			
+
 			System.out.println("Erreur : " + rendezVous.getInfirmier() + 
 					" pour " + plageHoraire);
+			return;
 		}
-		
+
 		plageHoraire.addRendezVous(rendezVous);
 		getFilePlageHoraire().enFile(plageHoraire);
-		
+
 		System.out.println(rendezVous + " créé.");
 	}
 
@@ -92,15 +99,20 @@ public class Calendrier implements Serializable {
 	 * @return
 	 */
 	public RendezVous obtenirProchainRendezVousPatient (Patient patient, PlageHoraire plageHoraire ){
+		
+		Calendrier calendrier = obtenirCalendrierPatient(patient);
 
-		for (int i =0; i < plageHoraire.getRendezVous().size(); i++) {			
-			if (plageHoraire.getRendezVous().get(i).getPatient() == patient ) {
-				getFilePlageHoraire().defile() ; 
+		Maillon maillon = calendrier.getFilePlageHoraire().getTete();
+		while (maillon != null) {
+
+			if(maillon.getPlageHoraire().getDate().before(plageHoraire.getDate())) {
+				maillon = maillon.getProchain();
 			}
-			return getFilePlageHoraire().getTete().getPlageHoraire().getRendezVous().get(i);
+			else {
+				return maillon.getPlageHoraire().getRendezVous().get(0);
+			}
 		}
-
-		return null ; 
+		return null;
 	}
 
 	/**
@@ -111,16 +123,20 @@ public class Calendrier implements Serializable {
 	 */
 
 	public RendezVous obtenirProchainRendezVousInfirmier(Infirmier infirmier , PlageHoraire plageHoraire) {
-		for (int i=0; i < plageHoraire.getRendezVous().size() ; i++  ) {
+		
+		Calendrier calendrier = obtenirCalendrierInfirmier(infirmier);
 
-			if (plageHoraire.getRendezVous().get(i).getInfirmier() == infirmier ) {
+		Maillon maillon = calendrier.getFilePlageHoraire().getTete();
+		while (maillon != null) {
 
-				getFilePlageHoraire().defile() ; 
+			if(maillon.getPlageHoraire().getDate().before(plageHoraire.getDate())) {
+				maillon = maillon.getProchain();
 			}
-			return getFilePlageHoraire().getTete().getPlageHoraire().getRendezVous().get(i);
+			else {
+				return maillon.getPlageHoraire().getRendezVous().get(0);
+			}
 		}
-
-		return null ; 
+		return null;
 	}
 
 	/**
@@ -131,12 +147,12 @@ public class Calendrier implements Serializable {
 	 */
 
 	public RendezVous obtenirProchainRendezVousDocteur(Docteur  docteur , PlageHoraire plageHoraire) {
-		
-		Calendrier calendrierDr = obtenirCalendrierDocteur(docteur);
-		
-		Maillon maillon = calendrierDr.getFilePlageHoraire().getTete();
+
+		Calendrier calendrier = obtenirCalendrierDocteur(docteur);
+
+		Maillon maillon = calendrier.getFilePlageHoraire().getTete();
 		while (maillon != null) {
-			
+
 			if(maillon.getPlageHoraire().getDate().before(plageHoraire.getDate())) {
 				maillon = maillon.getProchain();
 			}
@@ -144,9 +160,8 @@ public class Calendrier implements Serializable {
 				return maillon.getPlageHoraire().getRendezVous().get(0);
 			}
 		}
-		
 		return null;
-		
+
 	}
 	/**
 	 * Obtenir la prochaine plage horaire qui est dans la file filePlageHoraire
@@ -187,6 +202,38 @@ public class Calendrier implements Serializable {
 		return false ;
 	}
 
+	public Calendrier obtenirCalendrierPatient(Patient patient) {
+
+		Calendrier calendrier = new Calendrier();
+
+		Maillon maillon = getFilePlageHoraire().getTete();
+		while (maillon != null) {
+
+			PlageHoraire plageHoraire = maillon.getPlageHoraire();
+			PlageHoraire plageHorairePatient = 
+					new PlageHoraire(plageHoraire.getDate());
+
+			for (RendezVous rendezVous : plageHoraire.getRendezVous()) {
+				if(rendezVous.getPatient().equals(patient)) {
+					plageHorairePatient.addRendezVous(rendezVous);
+				}
+			}
+
+			if(!plageHorairePatient.getRendezVous().isEmpty()) {
+				FilePlageHoraire filePlageHoraire = calendrier.getFilePlageHoraire();
+
+				if(filePlageHoraire.estVide()) {
+					filePlageHoraire.setTete(new Maillon(plageHorairePatient));
+				}
+				else {
+					calendrier.getFilePlageHoraire().enFile(plageHorairePatient);
+				}
+			}
+			maillon = maillon.getProchain();
+		}
+		return calendrier;
+	}
+
 	public Calendrier obtenirCalendrierInfirmier(Infirmier infirmier) {
 
 		Calendrier calendrier = new Calendrier();
@@ -205,7 +252,14 @@ public class Calendrier implements Serializable {
 			}
 
 			if(!plageHoraireInfirmier.getRendezVous().isEmpty()) {
-				calendrier.filePlageHoraire.enFile(plageHoraireInfirmier);
+				FilePlageHoraire filePlageHoraire = calendrier.getFilePlageHoraire();
+
+				if(filePlageHoraire.estVide()) {
+					filePlageHoraire.setTete(new Maillon(plageHoraireInfirmier));
+				}
+				else {
+					calendrier.getFilePlageHoraire().enFile(plageHoraireInfirmier);
+				}
 			}
 			maillon = maillon.getProchain();
 		}
@@ -230,14 +284,19 @@ public class Calendrier implements Serializable {
 			}
 
 			if(!plageHoraireDocteur.getRendezVous().isEmpty()) {
-				calendrier.filePlageHoraire.enFile(plageHoraireDocteur);
+				FilePlageHoraire filePlageHoraire = calendrier.getFilePlageHoraire();
+
+				if(filePlageHoraire.estVide()) {
+					filePlageHoraire.setTete(new Maillon(plageHoraireDocteur));
+				}
+				else {
+					calendrier.getFilePlageHoraire().enFile(plageHoraireDocteur);
+				}
 			}
 			maillon = maillon.getProchain();
 		}
 		return calendrier;
 	}
-
-
 
 	@SuppressWarnings("deprecation")
 	private PlageHoraire getPlageHoraire(Date date){
@@ -252,7 +311,7 @@ public class Calendrier implements Serializable {
 					dateMaillon.getMonth() == date.getMonth() &&
 					dateMaillon.getHours() == date.getHours() &&
 					dateMaillon.getMinutes() == date.getMinutes()) {
-				
+
 				return maillon.getPlageHoraire();
 			}
 

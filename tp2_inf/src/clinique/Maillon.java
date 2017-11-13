@@ -1,7 +1,9 @@
 package clinique;
 
+import java.io.Serializable;
 
-public class Maillon {
+@SuppressWarnings("serial")
+public class Maillon implements Serializable {
 
 	private Maillon prochain; 
 	private PlageHoraire  plageHoraire;
