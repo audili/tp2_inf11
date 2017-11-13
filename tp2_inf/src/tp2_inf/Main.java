@@ -129,20 +129,27 @@ public class Main {
 
 				case 9:
 
-				case 10:
+				case 10:System.out.println(afficherCalendrierComplet
+						(clinique.getCalendrier() ));
 
-				case 11:
+				break;
 
-				case 12:
+				case 11:System.out.println(afficherCalendrierDocteur(clinique.
+						getCalendrier()));
+				break;
 
-				case 13:
+				case 12:System.out.println(afficherCalendrierInfirmier
+						(clinique.getCalendrier()));
+				break;	
 
+				case 13:annulerRendezvous(clinique.getCalendrier());
+				break;
 				case 14:
 					UtilitaireFichier.sauvegardeClinique(clinique);
 					System.exit(0);
 					break;
 				}
-			} while ( choix < 1 || choix > 14);			
+			} while (true);			
 		}
 	}
 
@@ -269,10 +276,10 @@ public class Main {
 		while(!heureEstValide) {
 			heureEstValide = choisirHeure(dateRdv);
 		}
-		
+
 		RendezVous rendezVous = new RendezVous(patientChoisi, docteurChoisi, 
 				infirmierChoisi);
-		
+
 		clinique.getCalendrier().ajouterRendezvous(dateRdv, rendezVous);
 	}
 
@@ -324,57 +331,138 @@ public class Main {
 		 * un infirmier disponible. */
 		Docteur docteurChoisi = obtenirDocteurDisponible(plageHoraire);
 		Infirmier infirmierChois = obtenirInfirmierDisponible(plageHoraire);
-		
+
 		if(docteurChoisi != null && infirmierChois != null) {
-			
+
 			rdv = new RendezVous(patientChoisi, docteurChoisi, infirmierChois);
 			clinique.getCalendrier().ajouterRendezvous(dateRdv, rdv);
 			System.out.println(rdv + " créé.");
 		}
 	}
-	
+
 	public static void afficherProchainRDVDocteur() {
 
 		Docteur docteur = choisirDocteur();
-		
+
 		Calendrier calendrierDocteur = clinique.getCalendrier()
 				.obtenirCalendrierDocteur(docteur);
-		
+
 		if(calendrierDocteur.getFilePlageHoraire().estVide()) {
 			System.out.println(docteur + " n'a aucun rendez-vous à son horaire.");
 			return;
 		}
-		
+
 		PlageHoraire plageHoraire = new PlageHoraire(new Date());
-		
+
 		RendezVous rdv = calendrierDocteur.obtenirProchainRendezVousDocteur
 				(docteur,plageHoraire);
 
 		System.out.println(rdv);
 	}
-	
+
 	/**
-	 * Quitte l'application en demandant
+	 * Quitte l'application et sauvegarde la clinique sous un fichier binaire.
 	 */
 	public static void quitter() {
 		
 		System.out.println("Êtes-vous sûr de vouloir quitter ?");
 		System.out.println("Oui/Non");
+
+		String ligne;
+		boolean estValide = false;
 		
-		String ligne = clavier.nextLine().toLowerCase();
-		while(!ligne.equals("oui") || !ligne.equals("non")) {
+		while (!estValide) {
 			ligne = clavier.next().toLowerCase();
-		}
-		
-		if(ligne.equals("Oui")) {
-			UtilitaireFichier.sauvegardeClinique(clinique);
-			System.exit(0);
-		}
-		
-		if(ligne.equals("Non")) {
-			return;
+			
+			if(ligne.equals("oui")) {
+				UtilitaireFichier.sauvegardeClinique(clinique);
+				System.exit(0);
+			}
+			if(ligne.equals("non")) {
+				return;
+			}
 		}
 	}
+	/**
+	 * 
+	 * @param calendrier
+	 * @return
+	 */
+	public static  String  afficherCalendrierComplet(Calendrier calendrier ){
+		Maillon maillon = calendrier.getFilePlageHoraire().getTete();
+		String afficher =calendrier.toString();
+
+		for (int i=0; i<maillon.getPlageHoraire().getRendezVous().size(); i++){
+
+
+			if ( !(calendrier.getFilePlageHoraire().estVide())) {
+
+				maillon.getPlageHoraire().getRendezVous().get(i);
+
+
+			}	
+		}
+		maillon =  maillon.getProchain();
+		if (maillon !=null) {
+			for (int i=0; i<maillon.getPlageHoraire().getRendezVous().size(); i++){
+
+
+				if ( !(calendrier.getFilePlageHoraire().estVide())) {
+
+					maillon.getPlageHoraire().getRendezVous().get(i);
+
+
+				}	
+			}
+		}
+		return afficher ;
+	}
+	/**
+	 * 
+	 * @param calendrier
+	 * @return
+	 */
+	public static String afficherCalendrierDocteur(Calendrier calendrier){
+
+		Docteur docteur = choisirDocteur();
+		calendrier = calendrier.obtenirCalendrierDocteur(docteur);
+
+		return calendrier.toString() ; 
+
+	}
+	/**
+	 * 
+	 * @param calendrier
+	 * @return
+	 */
+	public static String afficherCalendrierInfirmier(Calendrier calendrier){
+
+		Infirmier infirmier = choisirInfirmier();
+		calendrier = calendrier.obtenirCalendrierInfirmier(infirmier); 
+		return calendrier.toString() ; 
+
+	}
+	
+	public static  void annulerRendezvous(Calendrier calendrier){
+
+		RendezVous rdv =null; 
+		
+
+		for (int i=0; i<calendrier.getFilePlageHoraire().getTete().
+				getPlageHoraire().getRendezVous().size();i++){
+
+			if (calendrier.getFilePlageHoraire().getTete().getPlageHoraire()
+					.getRendezVous().get(0).equals(rdv)){
+
+				calendrier.annulerRendezVous(rdv, calendrier.getFilePlageHoraire
+						().getTete().getPlageHoraire());
+			}
+		}
+		System.out.println("Rendez vous annulé  ");
+	}
+				
+
+
 
 	/* ---------------------Méthodes privées-------------------------------- */
 
@@ -636,7 +724,7 @@ public class Main {
 					+ "heure valide.");
 			return false;
 		}
-		
+
 		return heureEstValide(date);
 	}
 
@@ -690,7 +778,7 @@ public class Main {
 			for (Infirmier infirmier : infirmiersDisponibles) {
 				infirmiersDisponibles.remove(infirmier);
 			}
-			
+
 			if(infirmiersDisponibles.isEmpty()) {
 				System.out.println("Erreur : Aucun infirmier n'est disponible "
 						+ "pour le " + plageHoraire);
@@ -701,17 +789,17 @@ public class Main {
 			}
 		}
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	private static boolean heureEstValide(Date date) {
-		
+
 		int minutes = date.getMinutes() ; 
 		if ((date.getHours() > 8 && date.getHours() < 20) && 
 				(minutes == 0 || minutes == 15 || minutes == 30 
 				|| minutes == 45) ){
 			return true;
 		}
-		
+
 		System.out.println("Erreur : L'heure doit être comprise entre 8h00 "
 				+ "et 20h00, sur des intervalles de 15 minutes.");
 		return false ;
