@@ -687,8 +687,8 @@ public class Main {
 			return infirmiersDisponibles.getFirst();
 		}
 		else {
-			for (Infirmier infirmier : infirmiersDisponibles) {
-				infirmiersDisponibles.remove(infirmier);
+			for (RendezVous rendezVous : plageHoraire.getRendezVous()) {
+				infirmiersDisponibles.remove(rendezVous.getInfirmier());
 			}
 			
 			if(infirmiersDisponibles.isEmpty()) {
