@@ -120,7 +120,7 @@ public class RendezVous implements Serializable {
 
 	// Méthode qui retourne un String.
 	public String toString() {
-		return "Le prochain rendez-vous du Docteur "+docteur.toString()
+		return "Le prochain rendez-vous est avec le Docteur "+docteur.toString()
 				+ " avec l'" + infirmier.
 				toString() + " et le " + patient.toString();
 	}

@@ -72,11 +72,29 @@ public class Patient implements Serializable {
 	 * Méthode boolénne qui nous retour ''false'' si deux objets ne sont pas
 	 * identiques.
 	 */
+	
 	@Override
-	public boolean equals (Object obj){
-		return false;
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Patient other = (Patient) obj;
+		if (identification == null) {
+			if (other.identification != null)
+				return false;
+		} else if (!identification.equals(other.identification))
+			return false;
+		if (numeroAssuranceSociale == null) {
+			if (other.numeroAssuranceSociale != null)
+				return false;
+		} else if (!numeroAssuranceSociale.equals(other.numeroAssuranceSociale))
+			return false;
+		return true;
 	}
-
+	
 	/**
 	 * Méthode qui sert à l'affichage de l'objet Patient.
 	 */

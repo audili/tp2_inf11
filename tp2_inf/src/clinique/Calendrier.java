@@ -226,7 +226,7 @@ public class Calendrier implements Serializable {
 	}
 	/**
 	 * Dans  ce sous-programme on obtient le calendrier du patient avec ses 
-	 * informations données en paramètre 
+	 * informations données en paramètres 
 	 * @param patient
 	 * @return
 	 */

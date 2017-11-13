@@ -124,26 +124,36 @@ public class Main {
 					break;
 
 				case 7:
+					afficherProchainRDVInfirmier();
+					break;
 
 				case 8:
+					afficherProchainRDVPatient();
+					break;
 
 				case 9:
 
-				case 10:System.out.println(afficherCalendrierComplet
-						(clinique.getCalendrier() ));
+				case 10:
+					System.out.println(afficherCalendrierComplet
+							(clinique.getCalendrier() ));
 
-				break;
+					break;
 
-				case 11:System.out.println(afficherCalendrierDocteur(clinique.
-						getCalendrier()));
-				break;
+				case 11:
+					System.out.println(afficherCalendrierDocteur(clinique.
+							getCalendrier()));
+					break;
 
-				case 12:System.out.println(afficherCalendrierInfirmier
-						(clinique.getCalendrier()));
-				break;	
+				case 12:
+					System.out.println(afficherCalendrierInfirmier
+							(clinique.getCalendrier()));
+					break;	
 
-				case 13:annulerRendezvous(clinique.getCalendrier());
-				break;
+				case 13:
+					annulerRendezvous(clinique.getCalendrier());
+
+					break;
+
 				case 14:
 					UtilitaireFichier.sauvegardeClinique(clinique);
 					System.exit(0);
@@ -152,6 +162,56 @@ public class Main {
 			} while (true);			
 		}
 	}
+
+
+
+	public static void afficherProchainRDVInfirmier() {
+
+		Infirmier infirmier = choisirInfirmier();
+
+		Calendrier calendrierInfirmier = clinique.getCalendrier()
+				.obtenirCalendrierInfirmier(infirmier);
+
+		if(calendrierInfirmier.getFilePlageHoraire().estVide()) {
+
+			System.out.println(infirmier + " n'a aucun rendez-vous à son "
+					+ "horaire.");
+			return;
+		}
+
+		PlageHoraire plageHoraire = new PlageHoraire(new Date());
+
+		RendezVous rdv = calendrierInfirmier.obtenirProchainRendezVousInfirmier
+				(infirmier,plageHoraire);
+
+		System.out.println(rdv);
+
+	}
+	
+	public static void afficherProchainRDVPatient() {
+
+		Patient patient = choisirPatient();
+
+		Calendrier calendrierPatient = clinique.getCalendrier()
+				.obtenirCalendrierPatient(patient);
+
+		if(calendrierPatient.getFilePlageHoraire().estVide()) {
+
+			System.out.println(patient + " n'a aucun rendez-vous à son "
+					+ "horaire.");
+			return;
+		}
+
+		PlageHoraire plageHoraire = new PlageHoraire(new Date());
+
+		RendezVous rdv = calendrierPatient.obtenirProchainRendezVousPatient
+				(patient,plageHoraire);
+
+		System.out.println(rdv);
+
+	}
+	
+	
 
 
 
@@ -364,16 +424,16 @@ public class Main {
 	 * Quitte l'application et sauvegarde la clinique sous un fichier binaire.
 	 */
 	public static void quitter() {
-		
+
 		System.out.println("Êtes-vous sûr de vouloir quitter ?");
 		System.out.println("Oui/Non");
 
 		String ligne;
 		boolean estValide = false;
-		
+
 		while (!estValide) {
 			ligne = clavier.next().toLowerCase();
-			
+
 			if(ligne.equals("oui")) {
 				UtilitaireFichier.sauvegardeClinique(clinique);
 				System.exit(0);
@@ -442,11 +502,11 @@ public class Main {
 		return calendrier.toString() ; 
 
 	}
-	
+
 	public static  void annulerRendezvous(Calendrier calendrier){
 
 		RendezVous rdv =null; 
-		
+
 
 		for (int i=0; i<calendrier.getFilePlageHoraire().getTete().
 				getPlageHoraire().getRendezVous().size();i++){
@@ -460,7 +520,7 @@ public class Main {
 		}
 		System.out.println("Rendez vous annulé  ");
 	}
-				
+
 
 
 
@@ -627,6 +687,7 @@ public class Main {
 				"du patient");
 
 		for (Patient patient : clinique.getListePatient()) {
+			
 			if(patient.getIdentification().equals(identification)) {
 				patientChoisi = patient;
 				break;
